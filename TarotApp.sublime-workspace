@@ -1,0 +1,270 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"class",
+				"classByte"
+			],
+			[
+				"parseA",
+				"parseAmiiboMetaData"
+			],
+			[
+				"short",
+				"shortRecord"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "TarotApp.sublime-project",
+			"settings":
+			{
+				"buffer_size": 47,
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"in",
+				"Install Package Control"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/Dropbox/Programming/TarotApp"
+	],
+	"file_history":
+	[
+		"/D/Dropbox/Crafting/MakerSecretSanta/questionaire.txt",
+		"/D/Dropbox/FamilyShare/3D Printer/Fabric/Incremental.11.Mill.gcode",
+		"/D/Dropbox/FamilyShare/3D Printer/HighChairFeet/Feet.skirt.mill.gcode",
+		"/E/Split.full.gcode",
+		"/E/AllWings.2.gcode",
+		"/C/Users/Alanbly/Documents/ElvUI.Profile.3.25.23.txt",
+		"/D/Dropbox/FamilyShare/3D Printer/Fabric/Incremental.9.Mill.gcode",
+		"/D/Dropbox/FamilyShare/3D Printer/Fabric/Incremental.6.Mill",
+		"/E/4.Model_3DPrintMill/cr30-levelx20.gcode",
+		"/D/Dropbox/FamilyShare/3D Printer/Fabric/Incremental.1.Mill",
+		"/E/4.Model_3DPrintMill/WoodlandDragonStraight.Mill.gcode",
+		"/E/4.Model_3DPrintMill/Benchy.Mill.gcode",
+		"/E/marlin22h.txt",
+		"/E/dragon35h.txt",
+		"/E/test.gcode",
+		"/E/test.txt",
+		"/C/Users/Alanbly/Documents/Amiibo/AnimalCrossing/[AC] 000 - Villager.bin",
+		"/D/Dropbox/FamilyShare/Jobs/Reply.txt",
+		"/D/Dropbox/FamilyShare/3D Printer/GCode/ReysSabre/EmitterButtonsCog.gcode",
+		"/D/Dropbox/FamilyShare/3D Printer/GCode/ReysSabre/Lower.gcode",
+		"/D/Dropbox/FamilyShare/3D Printer/GCode/ReysSabre/Upper.gcode",
+		"/C/Users/Alanbly/Documents/Amiibo/node_modules/nfc-pcsc/dist/Reader.js",
+		"/C/Users/Alanbly/Documents/Amiibo/node_modules/@pokusew/pcsclite/lib/pcsclite.js",
+		"/C/Users/Alanbly/Documents/Amiibo/node_modules/@pokusew/pcsclite/src/pcsclite.cpp",
+		"/C/Users/Alanbly/Documents/Amiibo/node_modules/@pokusew/pcsclite/src/cardreader.cpp",
+		"/C/Users/Alanbly/Documents/Amiibo/crypt.js",
+		"/C/Users/Alanbly/Documents/Amiibo/find.js",
+		"/C/Users/Alanbly/Documents/Amiibo/analyze.js",
+		"/C/Users/Alanbly/Documents/Amiibo/node_modules/nfc-pcsc/src/Reader.js",
+		"/C/Users/Alanbly/Documents/Amiibo/AnimalCrossing/[AC] 311 - Lottie.bin",
+		"/C/Users/Alanbly/Documents/Amiibo/AnimalCrossing/[AC] 017 - Lottie.bin",
+		"/C/Users/Alanbly/Documents/Amiibo/Animal Crossing Cards/[AC] 334 - Erik.bin",
+		"/C/Users/Alanbly/Documents/Amiibo/Animal Crossing Cards/[AC] 286 - Cube.bin",
+		"/C/Users/Alanbly/Documents/Amiibo/SuperSmashBros/VILLAGER.bin",
+		"/C/Users/Alanbly/Documents/Amiibo/SuperSmashBros/MP-Yoshi.bin",
+		"/C/Users/Alanbly/Documents/Amiibo/ndef.js",
+		"/C/Users/Alanbly/AppData/Local/Temp/Temp1_slicing-profiles-master.zip/slicing-profiles-master/README.md",
+		"/C/Users/Alanbly/AppData/Roaming/Factorio/mods/mod-settings.dat",
+		"/C/Program Files (x86)/Steam/steamapps/common/Factorio/data/core/lualib/mod-gui.lua",
+		"/C/Program Files (x86)/Steam/steamapps/common/Factorio/data/base/data-updates.lua",
+		"/C/Program Files (x86)/Steam/steamapps/common/Factorio/data/core/data.lua"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": true,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "TarotApp.sublime-project",
+					"selected": true,
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 47,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47,
+								47
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JSON/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "TarotApp.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 166.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
