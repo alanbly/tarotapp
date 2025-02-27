@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {drawCard} from './tarot';
 import {loadImage, renderCard} from './render';
 
-const Deck = ({canvasRef, cards, deck, position, setCards}) => {
+export const Deck = ({canvasRef, cards, deck, position, setCards}) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
