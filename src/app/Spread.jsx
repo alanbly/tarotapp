@@ -1,9 +1,14 @@
 import React from 'react';
+import Card from './Card';
 
-const Spread = ({canvasRef, pattern, cards}) => {
-  return <div>{
+import styles from './Spread.module.css';
+
+const Spread = ({canvasRef, width, height, spread, deck, cards}) => {
+  console.log(`Spread:render ${JSON.stringify(cards.map(card => card.name))}`)
+
+  return <div className={styles.spread}>{
     cards.map((card, idx) => 
-      <Card canvasRef={canvasRef} card={card} position={pattern.getCardPosition(idx)} />)
+      <Card key={card.name} canvasRef={canvasRef} deck={deck} card={card} position={spread.getCardPosition(width, height, idx)} />)
   }</div>;
 };
 

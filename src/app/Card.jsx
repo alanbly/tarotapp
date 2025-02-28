@@ -1,15 +1,21 @@
-import React, { useRef, useEffect } from 'react';
-import { renderCard } from './render';
+'use client'
 
-const Card = ({canvasRef, card, position}) => {
+import React, { useRef, useEffect } from 'react';
+import { loadImage, renderCard } from './render';
+
+import styles from './Card.module.css';
+
+const Card = ({canvasRef, deck, card, position}) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
-    loadImage(card.imageSrc)
-      .then(image => renderCard(context, image, position));
-  }, [canvasRef.current, card.imageSrc, position]);
 
-  return <div />;
+    console.log('Card:useEffect')
+    loadImage(deck.getCardImage(card))
+      .then(image => renderCard(context, image, position));
+  }, [canvasRef, card.imageSrc, position]);
+
+  return <div className={styles.card}/>;
 };
 
 export default Card;

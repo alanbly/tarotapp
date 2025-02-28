@@ -1,0 +1,23 @@
+.board {
+    width: 100%;
+    height: 100%;
+
+    background: #dddddd;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.canvas {
+    background: #bbbbbb;
+}
+
+.deck {
+
+}
+
+.spread {
+    
+}
