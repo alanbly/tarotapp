@@ -479,21 +479,37 @@ export class Spread {
   getCardSize(width, height) {
     const cardHeight = Math.min(height * 0.3, width * 0.15);
     const cardWidth = cardHeight / 2;
-    return {width: cardWidth, height: cardHeight};
+    return {
+      width: cardWidth,
+      height: cardHeight,
+      padX: cardWidth * 5 / 8,
+      padY: cardHeight * 5 / 8,
+    };
+  }
+
+  positionFromPlacement(width, height, placement) {
+    const {width: cardWidth, height: cardHeight, padX, padY} = 
+      this.getCardSize(width, height);
+
+    const adjustedWidth = width - padX * 2;
+    const adjustedHeight = height - padY * 2;
+
+    const {x, y, rotation} = placement;
+    return new Position(
+      x * adjustedWidth + padX, 
+      y * adjustedHeight + padY,
+      cardWidth,
+      cardHeight,
+      rotation
+    );
   }
 
   getCardPosition(width, height, idx) {
-    const {width: cardWidth, height: cardHeight} = this.getCardSize(width, height);
-
-    const {x, y, rotation} = this.placements[idx];
-    return new Position(x * width * 0.9, y * height * 0.9, cardWidth, cardHeight, rotation);
+    return this.positionFromPlacement(width, height, this.placements[idx]);
   }
 
   getDeckPosition(width, height) {
-    const {width: cardWidth, height: cardHeight} = this.getCardSize(width, height);
-
-    const {x, y, rotation} = this.deckLocation;
-    return new Position((x + 0.2) * width * 0.8, (y + 0.2) * height * 0.8, cardWidth, cardHeight, rotation);
+    return this.positionFromPlacement(width, height, this.deckLocation);
   }
 }
 
@@ -507,9 +523,9 @@ export const Spreads = Object.freeze({
       {x: 4, y: 7, rotation: Rotations.UPRIGHT},
       {x: 5, y: 4, rotation: Rotations.UPRIGHT},
       {x: 3, y: 4, rotation: Rotations.UPRIGHT},
-      {x: 6, y: 7, rotation: Rotations.UPRIGHT},
-      {x: 6, y: 5, rotation: Rotations.UPRIGHT},
-      {x: 6, y: 3, rotation: Rotations.UPRIGHT},
-      {x: 6, y: 1, rotation: Rotations.UPRIGHT},
+      {x: 7, y: 7, rotation: Rotations.UPRIGHT},
+      {x: 7, y: 5, rotation: Rotations.UPRIGHT},
+      {x: 7, y: 3, rotation: Rotations.UPRIGHT},
+      {x: 7, y: 1, rotation: Rotations.UPRIGHT},
     ])),
 });

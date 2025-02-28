@@ -8,6 +8,8 @@ import {Decks, Spreads, } from './tarot';
 import styles from './Board.module.css';
 
 const Board = () => {
+  console.log(`Board:render`);
+
   const canvasRef = useRef(null);
   const [cards, setCards] = useState([]);
   const [deck, setDeck] = useState(Decks.RIDER_WAITE_TAROT);
@@ -22,7 +24,7 @@ const Board = () => {
     if (spread.isComplete(deck.drawn.length)) { return; }
     const newCard = deck.drawCard();
     console.log(`Board:drawCard ${JSON.stringify(deck.drawn.map(card => card.name))}`)
-    setCards(deck.drawn);
+    setCards(deck.drawn.slice());
   };
 
   return <div className={styles.board}>

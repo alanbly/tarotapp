@@ -8,7 +8,12 @@ const Spread = ({canvasRef, width, height, spread, deck, cards}) => {
 
   return <div className={styles.spread}>{
     cards.map((card, idx) => 
-      <Card key={card.name} canvasRef={canvasRef} deck={deck} card={card} position={spread.getCardPosition(width, height, idx)} />)
+      <Card
+        key={card.name}
+        canvasRef={canvasRef}
+        deck={deck}
+        card={card}
+        position={spread.getCardPosition(width, height, idx)} />)
   }</div>;
 };
 
