@@ -24,6 +24,10 @@ export const CardDetail = ({deck, card, width, height, setSelectedCard}) => {
   useEffect(() => {
     const canvas = canvasRef.current;
 
+    if (!canvas) {
+      return;
+    }
+
     console.log(`CardDetail:render ${card ? card.name : 'none'}`);
 
     if (card) {
@@ -31,6 +35,19 @@ export const CardDetail = ({deck, card, width, height, setSelectedCard}) => {
     } else {
       clearCanvas(canvas);
     }
+
+    canvas.addEventListener('click',event => {
+      const {top, left} = canvas.getBoundingClientRect();
+      const x = event.clientX - left;
+      const y = event.clientY - top;
+
+      const inFrame = Math.abs(x - width / 2) < frameWidth / 2 && 
+        Math.abs(y - height / 2) < frameHeight / 2;
+
+      if (!inFrame) {
+        setSelectedCard(null);
+      }
+    });
   }, [canvasRef, deck, card, height, width, ]);
 
   const {width: cardWidth, height: cardHeight, padX, padY} = getCardSize(width, height);

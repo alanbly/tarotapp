@@ -7,7 +7,6 @@ import styles from './Deck.module.css';
 
 export const Deck = ({canvasRef, deck, position, drawCard}) => {
   useEffect(() => {
-    console.log('Deck canvas or position update')
     const canvas = canvasRef.current;
     const image = loadImage(deck.getCardImage('back.png'))
       .then(
@@ -16,7 +15,6 @@ export const Deck = ({canvasRef, deck, position, drawCard}) => {
   }, [canvasRef, position]);
 
   useEffect(() => {
-    console.log('Deck canvas change');
     const canvas = canvasRef.current;
     canvas.addEventListener('click', function(event) {
       const clickX = event.clientX - canvas.offsetLeft;
@@ -24,7 +22,6 @@ export const Deck = ({canvasRef, deck, position, drawCard}) => {
 
       // Handle the click event at coordinates (x, y)
       if (Math.abs(position.x - clickX) <= position.width / 2 && Math.abs(position.y - clickY) <= position.height / 2 ) {
-        console.log('Deck clicked at:', clickX, clickY);
         drawCard();
       }
     });

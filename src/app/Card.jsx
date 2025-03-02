@@ -9,7 +9,7 @@ const Card = ({canvasRef, deck, card, position, hover}) => {
   useEffect(() => {
     const canvas = canvasRef.current;
 
-    console.log(`Card:render ${card.name}`);
+    //console.log(`Card:render ${card.name}`);
 
     loadImage(deck.getCardImage(card))
       .then(image => renderCard(canvas, image, position, hover));
