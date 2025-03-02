@@ -75,7 +75,7 @@ export const Cards = Object.freeze({
     'The Magus of Power',
     "",
     "Skill, wisdom, adaptation, craft, cunning, or occult wisdom or power.")),
-  HIGH_PRIESTESS: Object.freeze(new Card('TheHighPriestess.png', Suits.MAJOR, Ranks.KEY, Facings.RIGHT, Facings.FORWARD, 2, 59, 'The High Priestess',
+  HIGH_PRIESTESS: Object.freeze(new Card('TheHighPriestess.png', Suits.MAJOR, Ranks.KEY, Facings.FORWARD, 2, 59, 'The High Priestess',
     'The Priestess of the Silver Star',
     "",
     "Change, alternation, increase and decrease, fluctuation; whether for good or evil depends on the dignity.")),
