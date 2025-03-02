@@ -81,8 +81,9 @@ export const clearCanvas = (canvas) => {
  * @param {number} options.y - Starting Y position
  * @param {number} options.maxWidth - Maximum width of a line before wrapping
  * @param {number} options.lineHeight - Spacing between lines
+ * @param {number} options.newlineSpacing - Additional spacing between paragraphs
  */
-function renderLongText(context, text, {x, y, maxWidth, lineHeight}) {
+function renderLongText(context, text, {x, y, maxWidth, lineHeight, newlineSpacing = 0}) {
   // Split the text into words
   const words = text.split(' ');
   let line = '';
@@ -90,21 +91,36 @@ function renderLongText(context, text, {x, y, maxWidth, lineHeight}) {
   
   // Process each word
   for (let i = 0; i < words.length; ++i) {
-    const testLine = line + words[i] + ' ';
+    const [nextWord, ...rest] = words[i].split("\n");
+    const forceNewline = rest.length > 0;
+
+    if (forceNewline) {
+      words.splice(i + 1, 0, rest.join("\n"))
+    }
+
+    const testLine = line + nextWord + ' ';
     const {width: testWidth} = context.measureText(testLine);
     
     if (testWidth > maxWidth && i > 0) {
       // If adding this word exceeds width, render current line and start a new one
       context.fillText(line, x, currentOffset);
-      line = words[i] + ' ';
+      line = nextWord + ' ';
       currentOffset += lineHeight;
     } else {
       line = testLine;
     }
+
+    if (forceNewline) {
+      context.fillText(line, x, currentOffset);
+      line ='';
+      currentOffset += lineHeight + newlineSpacing;
+    }
   }
   
   // Render the last line
-  context.fillText(line, x, currentOffset);
+  if (line.length > 0) {
+    context.fillText(line, x, currentOffset);
+  }
 }
 
 /**
@@ -167,5 +183,6 @@ export const renderDetail = (canvas, card, {x, y, width, height, inset, radius})
     y: textTopPad + titleHeight * 2, 
     maxWidth: textMaxWidth,
     lineHeight: textHeight * 1.1,
+    newlineSpacing: textHeight * 0.3,
   })
 };
