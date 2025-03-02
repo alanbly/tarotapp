@@ -67,7 +67,7 @@ export class Card {
 }
 
 export const Cards = Object.freeze({
-  FOOL: Object.freeze(new Card('TheFool.png', Suits.MAJOR, Ranks.KEY, Facings.RIGHT, Facings.LEFT, 0, 57, 'The Fool',
+  FOOL: Object.freeze(new Card('TheFool.png', Suits.MAJOR, Ranks.KEY, Facings.LEFT, 0, 57, 'The Fool',
     'The Spirit of Æther (GR:Alpha-iota-theta-eta-rho)',
     "",
     "If the question refers to spiritual matters, the Fool means idea, thought, spirituality, that which endeavours to transcend Earth. But if question is material, it means folly, stupidity, eccentricity, or even mania. ")),
@@ -516,7 +516,7 @@ export class Spread {
       const xThreshold = sideways ? (sidewaysCardWidth / 2) : (uprightCardWidth / 2);
       const yThreshold = sideways ? (sidewaysCardHeight / 2) : (uprightCardHeight / 2);
 
-      console.log(`Spread:findCard ${adjustedX},${adjustedY} - ${placement.x},${placement.y} < ${xThreshold},${yThreshold}`);
+      // console.log(`Spread:findCard ${adjustedX},${adjustedY} - ${placement.x},${placement.y} < ${xThreshold},${yThreshold}`);
 
       return Math.abs(adjustedX - placement.x) < xThreshold &&
         Math.abs(adjustedY - placement.y) < yThreshold

@@ -20,6 +20,10 @@ export class Position {
   }
 }
 
+export const AspectRatio = Object.freeze({
+  TAROT: 3.0/5,
+});
+
 export const Rotations = Object.freeze({
   UPRIGHT: 0,
   RIGHT: Math.PI/2,
@@ -42,7 +46,7 @@ export const loadImage = memoize((imageSrc) =>
 
 export const getCardSize = (width, height) => {
   const cardHeight = Math.min(height * 0.3, width * 0.15);
-  const cardWidth = cardHeight / 2;
+  const cardWidth = cardHeight * AspectRatio.TAROT;
   return {
     width: cardWidth,
     height: cardHeight,
@@ -68,15 +72,48 @@ export const clearCanvas = (canvas) => {
 };
 
 /**
- * Renders a rounded rectangle with gold color on a canvas
- * @param {HTMLCanvasElement} canvas - The canvas element to draw on
- * @param {number} x - The x-coordinate of the top-left corner
- * @param {number} y - The y-coordinate of the top-left corner
- * @param {number} width - The width of the rectangle
- * @param {number} height - The height of the rectangle
- * @param {number} radius - The radius of the rounded corners
+ * Renders a long string of text onto a canvas with proper word wrapping
+ * 
+ * @param {CanvasRenderingContext2D} context - The canvas 2D context
+ * @param {string} text - The text to render
+ * @param {Object} options - Rendering options
+ * @param {number} options.x - Starting X position
+ * @param {number} options.y - Starting Y position
+ * @param {number} options.maxWidth - Maximum width of a line before wrapping
+ * @param {number} options.lineHeight - Spacing between lines
  */
-export const renderDetail = (canvas, x, y, width, height, radius) => {
+function renderLongText(context, text, {x, y, maxWidth, lineHeight}) {
+  // Split the text into words
+  const words = text.split(' ');
+  let line = '';
+  let currentOffset = y;
+  
+  // Process each word
+  for (let i = 0; i < words.length; ++i) {
+    const testLine = line + words[i] + ' ';
+    const {width: testWidth} = context.measureText(testLine);
+    
+    if (testWidth > maxWidth && i > 0) {
+      // If adding this word exceeds width, render current line and start a new one
+      context.fillText(line, x, currentOffset);
+      line = words[i] + ' ';
+      currentOffset += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  
+  // Render the last line
+  context.fillText(line, x, currentOffset);
+}
+
+/**
+ * Renders the Card Detail panel
+ * @param {HTMLCanvasElement} canvas - The canvas element to draw on
+ * @param {Card} card - The card being rendered
+ * @param {Object} config - The render config
+ */
+export const renderDetail = (canvas, card, {x, y, width, height, inset, radius}) => {
   const context = canvas.getContext('2d');
   
   context.beginPath();
@@ -112,4 +149,23 @@ export const renderDetail = (canvas, x, y, width, height, radius) => {
   context.fillStyle = highlightGradient;
   context.fillRect(x, y, width, height);
   context.restore();
+
+  const contentHeight = height - inset * 2;
+  const textLeftPad = x + contentHeight * AspectRatio.TAROT + inset * 2;
+  const textTopPad = y + inset;
+  const textMaxWidth = x + width - textLeftPad - inset;
+  const titleHeight = height * 0.05;
+  const textHeight = height * 0.03;
+
+  context.fillStyle = 'black';
+  context.font = `${titleHeight}px cursive`;
+  context.fillText(card.name, textLeftPad, textTopPad + titleHeight, textMaxWidth);
+
+  context.font = `${textHeight}px cursive`;
+  renderLongText(context, card.interpretation, {
+    x: textLeftPad,
+    y: textTopPad + titleHeight * 2, 
+    maxWidth: textMaxWidth,
+    lineHeight: textHeight * 1.1,
+  })
 };
