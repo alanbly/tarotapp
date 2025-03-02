@@ -27,10 +27,11 @@ const Board = () => {
 
   const getTargetCard = event => {
     const canvas = canvasRef.current;
-    const moveX = event.clientX - canvas.offsetLeft;
-    const moveY = event.clientY - canvas.offsetTop;
+    const {top, left, width: canvasWidth, height: canvasHeight} = canvas.getBoundingClientRect();
+    const x = event.clientX - left;
+    const y = event.clientY - top;
 
-    const cardIdx = spread.findCard(width, height, moveX, moveY, deck.drawn.length);
+    const cardIdx = spread.findCard(canvasWidth, canvasHeight, x, y, deck.drawn.length);
     return cardIdx >= 0 ? deck.drawn[cardIdx] : null;
   }
 

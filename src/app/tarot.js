@@ -492,6 +492,10 @@ export class Spread {
   }
 
   findCard(width, height, x, y, cardCount) {
+    if (cardCount <= 0) {
+      return -1;
+    }
+
     const {width: cardWidth, height: cardHeight, padX, padY} = 
       getCardSize(width, height);
 
@@ -511,6 +515,9 @@ export class Spread {
       const sideways = [Rotations.RIGHT, Rotations.LEFT].includes(placement.rotation);
       const xThreshold = sideways ? (sidewaysCardWidth / 2) : (uprightCardWidth / 2);
       const yThreshold = sideways ? (sidewaysCardHeight / 2) : (uprightCardHeight / 2);
+
+      console.log(`Spread:findCard ${adjustedX},${adjustedY} - ${placement.x},${placement.y} < ${xThreshold},${yThreshold}`);
+
       return Math.abs(adjustedX - placement.x) < xThreshold &&
         Math.abs(adjustedY - placement.y) < yThreshold
     })
