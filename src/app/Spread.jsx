@@ -3,9 +3,7 @@ import Card from './Card';
 
 import styles from './Spread.module.css';
 
-const Spread = ({canvasRef, width, height, spread, deck, cards}) => {
-  console.log(`Spread:render ${JSON.stringify(cards.map(card => card.name))}`)
-
+const Spread = ({canvasRef, width, height, spread, deck, cards, hoverCard}) => {
   return <div className={styles.spread}>{
     cards.map((card, idx) => 
       <Card
@@ -13,7 +11,8 @@ const Spread = ({canvasRef, width, height, spread, deck, cards}) => {
         canvasRef={canvasRef}
         deck={deck}
         card={card}
-        position={spread.getCardPosition(width, height, idx)} />)
+        position={spread.getCardPosition(width, height, idx)}
+        hover={hoverCard && card.key == hoverCard.key} />)
   }</div>;
 };
 

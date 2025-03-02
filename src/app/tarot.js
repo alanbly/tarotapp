@@ -1,4 +1,4 @@
-import {Position, Rotations} from './render';
+import {Position, Rotations, getCardSize} from './render';
 
 export class Suit {
   constructor(name, interpretation) {
@@ -429,8 +429,6 @@ export const Decks = Object.freeze({
 });
 
 const normalizePlacements = (placements) => {
-  console.log(`normalizePlacements ${JSON.stringify(placements)}`);
-
   const {minX, maxX, minY, maxY} = placements.reduce(
     (bounds, placement) => ({
       minX: Math.min(bounds.minX, placement.x),
@@ -447,15 +445,11 @@ const normalizePlacements = (placements) => {
   const rangeX = 1.0 * (maxX - minX);
   const rangeY = 1.0 * (maxY - minY);
 
-  console.log(`normalizePlacements:bounds ${JSON.stringify([minX, maxX, rangeX, minY, maxY, rangeY])}`);
-
   const mapped = placements.map(placement => ({
     ...placement,
     x: (placement.x - minX) / rangeX,
     y: (placement.y - minY) / rangeY,
   }));
-
-  console.log(`normalizePlacements:normalized ${JSON.stringify(mapped)}`);
 
   return mapped;
 }
@@ -465,31 +459,16 @@ export class Spread {
     this.name = name;
     [this.deckLocation, ...this.placements] = normalizePlacements([deckLocation, ...placements]);
 
-    console.log(`Deck location: ${JSON.stringify(this.deckLocation)}`)
-    console.log(`Card placements: ${JSON.stringify(this.placements)}`)
-
     this.key = Symbol(name);
   }
 
   isComplete(cardCount) {
-    console.log(`Spread:isComplete ${cardCount} ${this.placements.length}`)
     return cardCount >= this.placements.length;
-  }
-
-  getCardSize(width, height) {
-    const cardHeight = Math.min(height * 0.3, width * 0.15);
-    const cardWidth = cardHeight / 2;
-    return {
-      width: cardWidth,
-      height: cardHeight,
-      padX: cardWidth * 5 / 8,
-      padY: cardHeight * 5 / 8,
-    };
   }
 
   positionFromPlacement(width, height, placement) {
     const {width: cardWidth, height: cardHeight, padX, padY} = 
-      this.getCardSize(width, height);
+      getCardSize(width, height);
 
     const adjustedWidth = width - padX * 2;
     const adjustedHeight = height - padY * 2;
@@ -510,6 +489,31 @@ export class Spread {
 
   getDeckPosition(width, height) {
     return this.positionFromPlacement(width, height, this.deckLocation);
+  }
+
+  findCard(width, height, x, y, cardCount) {
+    const {width: cardWidth, height: cardHeight, padX, padY} = 
+      getCardSize(width, height);
+
+    const adjustedWidth = width - padX * 2;
+    const adjustedHeight = height - padY * 2;
+
+    var uprightCardWidth = cardWidth / adjustedWidth;
+    var uprightCardHeight = cardHeight / adjustedHeight;
+    var sidewaysCardWidth = cardHeight / adjustedWidth;
+    var sidewaysCardHeight = cardWidth / adjustedHeight;
+
+    const adjustedX = (x - padX) / adjustedWidth;
+    const adjustedY = (y - padY) / adjustedHeight;
+
+    const placed = this.placements.slice(0, cardCount);
+    return placed.findLastIndex((placement, idx) => {
+      const sideways = [Rotations.RIGHT, Rotations.LEFT].includes(placement.rotation);
+      const xThreshold = sideways ? (sidewaysCardWidth / 2) : (uprightCardWidth / 2);
+      const yThreshold = sideways ? (sidewaysCardHeight / 2) : (uprightCardHeight / 2);
+      return Math.abs(adjustedX - placement.x) < xThreshold &&
+        Math.abs(adjustedY - placement.y) < yThreshold
+    })
   }
 }
 

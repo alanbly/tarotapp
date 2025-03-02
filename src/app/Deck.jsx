@@ -9,13 +9,9 @@ export const Deck = ({canvasRef, deck, position, drawCard}) => {
   useEffect(() => {
     console.log('Deck canvas or position update')
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
     const image = loadImage(deck.getCardImage('back.png'))
       .then(
-        image => {
-          console.log('Deck image loaded, rendering');
-          renderCard(context, image, position);
-        }, 
+        image => renderCard(canvas, image, position),
         e => console.error('Deck image load failed', e));
   }, [canvasRef, position]);
 
