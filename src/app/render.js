@@ -124,12 +124,17 @@ function renderLongText(context, text, {x, y, maxWidth, lineHeight, newlineSpaci
 }
 
 /**
- * Renders the Card Detail panel
+ * Renders an overlay panel
  * @param {HTMLCanvasElement} canvas - The canvas element to draw on
- * @param {Card} card - The card being rendered
  * @param {Object} config - The render config
+ * @param {number} config.x - The horizontal placement (from left edge of canvas)
+ * @param {number} config.y - The vertical placement (from top edge of canvas)
+ * @param {number} config.width - The width of the panel
+ * @param {number} config.height - The height of the panel
+ * @param {number} config.inset - The gap between elements
+ * @param {number} config.radius - The radius of the corners
  */
-export const renderDetail = (canvas, card, {x, y, width, height, inset, radius}) => {
+export const renderOverlayPanel = (canvas, {x, y, width, height, inset, radius}) => {
   const context = canvas.getContext('2d');
   
   context.beginPath();
@@ -167,22 +172,60 @@ export const renderDetail = (canvas, card, {x, y, width, height, inset, radius})
   context.restore();
 
   const contentHeight = height - inset * 2;
-  const textLeftPad = x + contentHeight * AspectRatio.TAROT + inset * 2;
-  const textTopPad = y + inset;
-  const textMaxWidth = x + width - textLeftPad - inset;
+  const contentWidth = width - inset * 2;
+  const leftPad = x + inset;
+  const topPad = y + inset;
   const titleHeight = height * 0.05;
   const textHeight = height * 0.03;
 
+  return {
+    contentHeight,
+    contentWidth,
+    topPad,
+    leftPad,
+    titleHeight,
+    textHeight,
+  };
+};
+
+/**
+ * Renders the Card Detail panel
+ * @param {HTMLCanvasElement} canvas - The canvas element to draw on
+ * @param {Card} card - The card being rendered
+ * @param {Object} config - The render config
+ * @param {number} config.x - The horizontal placement (from left edge of canvas)
+ * @param {number} config.y - The vertical placement (from top edge of canvas)
+ * @param {number} config.width - The width of the panel
+ * @param {number} config.height - The height of the panel
+ * @param {number} config.inset - The gap between elements
+ * @param {number} config.radius - The radius of the corners
+ */
+export const renderDetail = (canvas, card, {x, y, width, height, inset, radius}) => {
+  const context = canvas.getContext('2d');
+  
+  const {
+    contentHeight,
+    contentWidth,
+    topPad,
+    leftPad,
+    titleHeight,
+    textHeight,
+  } = renderOverlayPanel(canvas, {x, y, width, height, inset, radius});
+
+  const textLeftPad = leftPad + contentHeight * AspectRatio.TAROT + inset;
+  const textTopPad = y + inset;
+  const textMaxWidth = x + width - textLeftPad - inset;
+
   context.fillStyle = 'black';
   context.font = `${titleHeight}px cursive`;
-  context.fillText(card.name, textLeftPad, textTopPad + titleHeight, textMaxWidth);
+  context.fillText(card.name, textLeftPad, topPad + titleHeight, textMaxWidth);
 
   context.font = `${textHeight}px cursive`;
   renderLongText(context, card.interpretation, {
     x: textLeftPad,
-    y: textTopPad + titleHeight * 2, 
+    y: topPad + titleHeight * 2, 
     maxWidth: textMaxWidth,
     lineHeight: textHeight * 1.1,
     newlineSpacing: textHeight * 0.3,
-  })
+  });
 };
