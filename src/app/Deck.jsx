@@ -1,33 +1,15 @@
 'use client'
 
-import React, { useEffect } from 'react';
-import {loadImage, renderCard} from './render';
+import React from 'react';
 
 import styles from './Deck.module.css';
 
-export const Deck = ({canvasRef, deck, position, drawCard}) => {
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const image = loadImage(deck.getCardImage('back.png'))
-      .then(
-        image => renderCard(canvas, image, position),
-        e => console.error('Deck image load failed', e));
-  }, [canvasRef, position]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.addEventListener('click', function(event) {
-      const clickX = event.clientX - canvas.offsetLeft;
-      const clickY = event.clientY - canvas.offsetTop;
-
-      // Handle the click event at coordinates (x, y)
-      if (Math.abs(position.x - clickX) <= position.width / 2 && Math.abs(position.y - clickY) <= position.height / 2 ) {
-        drawCard();
-      }
-    });
-  }, [canvasRef]);
-
-  return <div className={styles.deck}/>;
+export const Deck = ({deck, position, drawCard}) => {
+  return <img 
+    className={styles.deck}
+    src={deck.getCardImageSrc('back.png')}
+    onClick={drawCard}
+  />;
 };
 
 export default Deck;

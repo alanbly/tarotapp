@@ -1,3 +1,8 @@
 .spread {
 
 }
+
+.card {
+    height: 30vh;
+    position: absolute;
+}

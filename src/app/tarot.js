@@ -418,7 +418,7 @@ export class Deck extends EventTarget {
     this.#emitChangeEvent();
   }
 
-  getCardImage(card) {
+  getCardImageSrc(card) {
     return `/images/${this.slug}/${card.imageSrc || card}`;
   }
 }
@@ -466,17 +466,17 @@ export class Spread {
     return cardCount >= this.placements.length;
   }
 
-  positionFromPlacement(width, height, placement) {
+  positionFromPlacement(width, height, placement, insetX, insetY) {
     const {width: cardWidth, height: cardHeight, padX, padY} = 
       getCardSize(width, height);
 
-    const adjustedWidth = width - padX * 2;
-    const adjustedHeight = height - padY * 2;
+    const adjustedWidth = width - insetX;
+    const adjustedHeight = height - insetY;
 
     const {x, y, rotation} = placement;
     return new Position(
-      x * adjustedWidth + padX, 
-      y * adjustedHeight + padY,
+      x * adjustedWidth,
+      y * adjustedHeight,
       cardWidth,
       cardHeight,
       rotation
@@ -489,6 +489,18 @@ export class Spread {
 
   getDeckPosition(width, height) {
     return this.positionFromPlacement(width, height, this.deckLocation);
+  }
+
+  getStyles(className, width, height, offset, insetX = 0, insetY = 0) {
+    return this.placements.map((placement, idx) => {
+      const {x, y, rotation} = this.positionFromPlacement(width, height, placement, insetX, insetY);
+      return `
+        .${className}:nth-child(${idx + offset + 1}) {
+          left: ${x}px;
+          top: ${y}px;
+          transform: rotate(${placement.rotation}rad);
+        }`
+    }).join('');
   }
 
   findCard(width, height, x, y, cardCount) {
@@ -528,15 +540,15 @@ export const Spreads = Object.freeze({
   CELTIC: Object.freeze(new Spread('Celtic Divination', 
     {x: 1, y: 1, rotation: Rotations.UPRIGHT}, 
     [
-      {x: 4, y: 4, rotation: Rotations.UPRIGHT},
-      {x: 4, y: 4, rotation: Rotations.RIGHT},
-      {x: 4, y: 1, rotation: Rotations.UPRIGHT},
-      {x: 4, y: 7, rotation: Rotations.UPRIGHT},
-      {x: 5, y: 4, rotation: Rotations.UPRIGHT},
+      {x: 2, y: 4, rotation: Rotations.UPRIGHT},
+      {x: 2, y: 4, rotation: Rotations.RIGHT},
+      {x: 2, y: 1, rotation: Rotations.UPRIGHT},
+      {x: 2, y: 7, rotation: Rotations.UPRIGHT},
       {x: 3, y: 4, rotation: Rotations.UPRIGHT},
-      {x: 7, y: 7, rotation: Rotations.UPRIGHT},
-      {x: 7, y: 5, rotation: Rotations.UPRIGHT},
-      {x: 7, y: 3, rotation: Rotations.UPRIGHT},
-      {x: 7, y: 1, rotation: Rotations.UPRIGHT},
+      {x: 1, y: 4, rotation: Rotations.UPRIGHT},
+      {x: 4, y: 7, rotation: Rotations.UPRIGHT},
+      {x: 4, y: 5, rotation: Rotations.UPRIGHT},
+      {x: 4, y: 3, rotation: Rotations.UPRIGHT},
+      {x: 4, y: 1, rotation: Rotations.UPRIGHT},
     ])),
 });

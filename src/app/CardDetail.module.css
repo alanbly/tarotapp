@@ -1,7 +1,35 @@
 .cardDetail {
     position: absolute;
+    padding: 5vh 5vw;
+    left: calc(max(0vw, 50vw - min(45vw, 60vh)));
+    top: calc(max(0vh, 50vh - min(45vh, 33.75vw)));
+    width: min(90vw, 120vh);
+    height: min(90vh, 67.5vw);
+
+    border-radius: min(3vh, 3vw);
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: min(3vh, 3vw);
+
+    background: linear-gradient(-25deg, #FEF1A2, #D5BE73, #BEA55D, #E9D294, #A68E46);
 }
 
-.canvas {
+.card {
+    height: 100%;
+}
+
+.textBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: min(3vh, 3vw);
+}
+
+.title {
+
+}
+
+.text {
 
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CardDetail from './CardDetail';
 import Deck from './Deck';
 import Spread from './Spread';
@@ -9,39 +9,11 @@ import {Decks, Spreads, } from './tarot';
 import styles from './Board.module.css';
 
 const Board = () => {
-  const canvasRef = useRef(null);
   const [cards, setCards] = useState([]);
   const [deck, setDeck] = useState(Decks.RIDER_WAITE_TAROT);
   const [spread, setSpread] = useState(Spreads.CELTIC);
   const [selectedCard, setSelectedCard] = useState(null);
   const [hoverCard, setHoverCard] = useState(null);
-
-  const [width, setWidth] = useState(1600);
-  const [height, setHeight] = useState(800);
-
-  useEffect(() => {
-    // client-only
-    setWidth(window.innerWidth * 0.9);
-    setHeight(window.innerHeight * 0.9);
-  }, []);
-
-  const getTargetCard = event => {
-    const canvas = canvasRef.current;
-    const {top, left, width: canvasWidth, height: canvasHeight} = canvas.getBoundingClientRect();
-    const x = event.clientX - left;
-    const y = event.clientY - top;
-
-    const cardIdx = spread.findCard(canvasWidth, canvasHeight, x, y, deck.drawn.length);
-    return cardIdx >= 0 ? deck.drawn[cardIdx] : null;
-  }
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.addEventListener('mousemove', event =>
-      setHoverCard(getTargetCard(event)));
-    canvas.addEventListener('click',event =>
-      setSelectedCard(getTargetCard(event)));
-  }, [canvasRef]);
 
   const drawCard = () => {
     if (spread.isComplete(deck.drawn.length)) { return; }
@@ -50,11 +22,12 @@ const Board = () => {
     setCards(deck.drawn.slice());
   };
 
-  return <div className={styles.board}>
-    <canvas ref={canvasRef} className={styles.canvas} width={width} height={height}/>
-    <Deck {...{canvasRef, deck, drawCard}} position={spread.getDeckPosition(width, height)}/>
-    <Spread {...{canvasRef, width, height, spread, deck, cards, hoverCard}} />
-    <CardDetail {...{deck, height, width, card: selectedCard, setSelectedCard}}/>
+  return <div className={styles.frame} onClick={() => setSelectedCard(null)}>
+    <div className={styles.board}>
+      <Deck className={styles.deck} {...{deck, drawCard}}/>
+      <Spread className={styles.spread} {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard}} />
+    </div>
+    {selectedCard && <CardDetail className={styles.detail}  {...{deck, card: selectedCard, setSelectedCard}}/>}
   </div>;
 };
 
