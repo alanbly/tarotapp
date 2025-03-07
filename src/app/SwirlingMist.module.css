@@ -1,0 +1,11 @@
+.frame {
+
+}
+
+.canvas {
+    width: 140%;
+    height: 140%;
+    position: absolute;
+    top: -20%;
+    left: -20%;
+}

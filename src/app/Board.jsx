@@ -3,7 +3,9 @@
 import React, { useState } from 'react';
 import CardDetail from './CardDetail';
 import Deck from './Deck';
+import Introduction from './Introduction';
 import Spread from './Spread';
+
 import {Decks, Spreads, } from './tarot';
 
 import styles from './Board.module.css';
@@ -27,7 +29,8 @@ const Board = () => {
       <Deck className={styles.deck} {...{deck, drawCard}}/>
       <Spread className={styles.spread} {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard}} />
     </div>
-    {selectedCard && <CardDetail className={styles.detail}  {...{deck, card: selectedCard, setSelectedCard}}/>}
+    {cards.length == 0 && <Introduction className={styles.introduction} {...{setCards, setSelectedCard}}/>}
+    {selectedCard && <CardDetail className={styles.detail} {...{deck, card: selectedCard, setSelectedCard}}/>}
   </div>;
 };
 
