@@ -554,19 +554,22 @@ export const Spreads = Object.freeze({
 });
 
 export const States = Object.freeze({
+  VEIL: Symbol('VEIL'),
   INITIAL: Symbol('INITIAL'),
   EXPLAIN_SIGNIFICATOR: Symbol('EXPLAIN_SIGNIFICATOR'),
   CHOOSE_SIGNIFICATOR: Symbol('CHOOSE_SIGNIFICATOR'),
   EXPLAIN_QUESTION: Symbol('EXPLAIN_QUESTION'),
   CUT_CARDS: Symbol('CUT_CARDS'),
+  PART: Symbol('PART'),
   //: Symbol(''),
 });
 
 export class Action {
-  constructor(text, targetState, primary) {
+  constructor(text, primary, targetState = States.VEIL, parameters = {}) {
     this.text = text;
-    this.targetState = targetState;
     this.primary = !!primary;
+    this.targetState = targetState;
+    this.parameters = parameters;
   }
 }
 

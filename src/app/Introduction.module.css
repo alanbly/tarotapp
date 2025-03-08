@@ -1,4 +1,6 @@
 .introduction {
+    font-family: var(--font-bonheur-royale);
+    font-size: 8vh;
 }
 
 .background {
@@ -6,12 +8,38 @@
     height: 100vh;
 }
 
-.phase {
+.veil {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+
+    opacity: 100%;
+    background: #aaaaaa;
+}
+
+.phase {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 80vh;
+    padding: 15vh 15vw;
+
+    opacity: 0%;
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.text {
+    text-align: center;
 }
 
 .actions {
@@ -20,10 +48,19 @@
     left: 0;
     width: 100vw;
     height: 30vh;
+
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    gap: 10vh 10vw;
 }
 
 .action {
-
+    cursor: grab;
+    border: none;
+    background: none;
+    font-family: var(--font-bonheur-royale);
+    font-size: xxx-large;
 }
 
 .action.primary {

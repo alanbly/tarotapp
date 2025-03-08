@@ -24,9 +24,13 @@ const Board = () => {
     setCards(deck.drawn.slice());
   };
 
+  const deckStyle = {
+    cursor: spread.isComplete(deck.drawn.length) ? 'not-allowed' : 'grab',
+  };
+
   return <div className={styles.frame} onClick={() => setSelectedCard(null)}>
     <div className={styles.board}>
-      <Deck className={styles.deck} {...{deck, drawCard}}/>
+      <Deck className={styles.deck} {...{deck, drawCard}} style={deckStyle}/>
       <Spread className={styles.spread} {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard}} />
     </div>
     {cards.length == 0 && <Introduction className={styles.introduction} {...{setCards, setSelectedCard}}/>}

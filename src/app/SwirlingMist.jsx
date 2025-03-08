@@ -97,7 +97,7 @@ const createCircles = (width, height, count) => {
   return circles;
 }
 
-export const SwirlingMist = ({className}) => {
+export const SwirlingMist = ({className, style, onClick}) => {
   const canvasRef = useRef(null);
   const divCls = classNames(styles.frame, className, {});
 
@@ -119,7 +119,7 @@ export const SwirlingMist = ({className}) => {
     
   }, [canvasRef, count]);
 
-  return <div className={divCls}>
+  return <div className={divCls} {...{style, onClick}}>
     <canvas ref={canvasRef} className={styles.canvas}/>
   </div>;
 };
