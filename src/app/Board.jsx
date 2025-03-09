@@ -33,7 +33,7 @@ const Board = () => {
       <Deck className={styles.deck} {...{deck, drawCard}} style={deckStyle}/>
       <Spread className={styles.spread} {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard}} />
     </div>
-    {cards.length == 0 && <Introduction className={styles.introduction} {...{setCards, setSelectedCard}}/>}
+    {cards.length == 0 && <Introduction className={styles.introduction} {...{deck, setCards, setSelectedCard}}/>}
     {selectedCard && <CardDetail className={styles.detail} {...{deck, card: selectedCard, setSelectedCard}}/>}
   </div>;
 };

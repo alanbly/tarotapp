@@ -34,20 +34,35 @@
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
+    flex-direction: column;
+    gap: 5vh 5vw;
+}
 
+.significator {
+    height: 100vh;
+
+    .card {
+        cursor: grab;
+    }
 }
 
 .text {
     text-align: center;
 }
 
-.actions {
-    position: absolute;
-    top: 60vh;
-    left: 0;
-    width: 100vw;
+.cards {
+    display: flex;
+    column-gap: 5vw;
+}
+
+.card {
     height: 30vh;
+}
+
+.actions {
+    width: 100vw;
+    height: 10vh;
 
     display: flex;
     align-items: start;

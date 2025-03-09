@@ -1,5 +1,11 @@
 import {Position, Rotations, getCardSize} from './render';
 
+export const Genders = Object.freeze({
+  MALE: Symbol('MALE'),
+  FEMALE: Symbol('FEMALE'),
+  NONBINARY: Symbol('NONBINARY'),
+});
+
 export class Suit {
   constructor(name, interpretation) {
     this.name = name;
@@ -398,6 +404,17 @@ export class Deck extends EventTarget {
     return next;
   }
 
+  pullCard(key) {
+    const idx = this.undrawn.find(card => card.key === key);
+    if (idx < 0) {
+      return null;
+    }
+    const [next] = this.undrawn.splice(idx, 1);
+    this.drawn.push(next);
+    this.#emitChangeEvent();
+    return next;
+  }
+
   shuffle() {
     // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     for (let i = this.undrawn.length - 1; i >= 0; --i) {
@@ -502,38 +519,6 @@ export class Spread {
         }`
     }).join('');
   }
-
-  findCard(width, height, x, y, cardCount) {
-    if (cardCount <= 0) {
-      return -1;
-    }
-
-    const {width: cardWidth, height: cardHeight, padX, padY} = 
-      getCardSize(width, height);
-
-    const adjustedWidth = width - padX * 2;
-    const adjustedHeight = height - padY * 2;
-
-    var uprightCardWidth = cardWidth / adjustedWidth;
-    var uprightCardHeight = cardHeight / adjustedHeight;
-    var sidewaysCardWidth = cardHeight / adjustedWidth;
-    var sidewaysCardHeight = cardWidth / adjustedHeight;
-
-    const adjustedX = (x - padX) / adjustedWidth;
-    const adjustedY = (y - padY) / adjustedHeight;
-
-    const placed = this.placements.slice(0, cardCount);
-    return placed.findLastIndex((placement, idx) => {
-      const sideways = [Rotations.RIGHT, Rotations.LEFT].includes(placement.rotation);
-      const xThreshold = sideways ? (sidewaysCardWidth / 2) : (uprightCardWidth / 2);
-      const yThreshold = sideways ? (sidewaysCardHeight / 2) : (uprightCardHeight / 2);
-
-      // console.log(`Spread:findCard ${adjustedX},${adjustedY} - ${placement.x},${placement.y} < ${xThreshold},${yThreshold}`);
-
-      return Math.abs(adjustedX - placement.x) < xThreshold &&
-        Math.abs(adjustedY - placement.y) < yThreshold
-    })
-  }
 }
 
 export const Spreads = Object.freeze({
@@ -552,31 +537,3 @@ export const Spreads = Object.freeze({
       {x: 4, y: 1, rotation: Rotations.UPRIGHT},
     ])),
 });
-
-export const States = Object.freeze({
-  VEIL: Symbol('VEIL'),
-  INITIAL: Symbol('INITIAL'),
-  EXPLAIN_SIGNIFICATOR: Symbol('EXPLAIN_SIGNIFICATOR'),
-  CHOOSE_SIGNIFICATOR: Symbol('CHOOSE_SIGNIFICATOR'),
-  EXPLAIN_QUESTION: Symbol('EXPLAIN_QUESTION'),
-  CUT_CARDS: Symbol('CUT_CARDS'),
-  PART: Symbol('PART'),
-  //: Symbol(''),
-});
-
-export class Action {
-  constructor(text, primary, targetState = States.VEIL, parameters = {}) {
-    this.text = text;
-    this.primary = !!primary;
-    this.targetState = targetState;
-    this.parameters = parameters;
-  }
-}
-
-export class Phase {
-  constructor(state, content, actions) {
-    this.state = state;
-    this.content = content;
-    this.actions = actions;
-  }
-}
