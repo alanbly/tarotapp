@@ -1,6 +1,10 @@
 .introduction {
     font-family: var(--font-bonheur-royale);
     font-size: 8vh;
+
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
 }
 
 .background {
@@ -49,6 +53,10 @@
 
 .text {
     text-align: center;
+}
+
+.text.single {
+    padding-bottom: 10vh;
 }
 
 .cards {

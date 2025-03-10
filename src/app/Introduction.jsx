@@ -375,7 +375,7 @@ const CutCards = ({deck, setState}) => {
   </div>;
 };
 
-const PartVeil = ({deck, setCards, significator, ...params}) => {
+const PartVeil = ({partVeil}) => {
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
@@ -385,20 +385,18 @@ const PartVeil = ({deck, setCards, significator, ...params}) => {
 
     setTimeout(() => {
       setAlpha(0);
+      partVeil();
     }, 1000);
-
-    setTimeout(() => {
-      deck.pullCard(significator);
-      setCards(deck.drawn.slice());
-    }, 2000);
   }, []);
 
   const style = {
     opacity: alpha,
   };
 
+  const spanCls = classNames(styles.text, styles.single);
+
   return <div className={styles.phase} style={style}>
-    <span className={styles.text}>The Veil Parts...</span>
+    <span className={spanCls}>The Veil Parts...</span>
   </div>;
 };
 
@@ -436,6 +434,7 @@ export const Introduction = ({
   setSelectedCard,
   initialState = States.VEIL,
 }) => {
+  const [alpha, setAlpha] = useState(1);
   const [state, setState] = useState(initialState);
   const [parameters, setParameters] = useState({});
   const [gender, setGender] = useState();
@@ -446,8 +445,20 @@ export const Introduction = ({
   const phase = introduction[state] || introduction[States.VEIL];
   const Component = phase.content;
 
+  const partVeil = () => {
+    setAlpha(0);
+    setTimeout(() => {
+      deck.pullCard(significator);
+      setCards(deck.drawn.slice());
+    }, 1000);
+  }
+
+  const style = {
+    opacity: alpha,
+  };
+
   const divCls = classNames(styles.introduction, className, {});
-  return <div className={divCls}>
+  return <div className={divCls} style={style}>
     <SwirlingMist
       className={styles.background}
       onClick={() => setSelectedCard(null)}/>
@@ -459,6 +470,7 @@ export const Introduction = ({
         rank,
         significator,
         suit,
+        partVeil,
         setCards,
         setGender,
         setParameters,
