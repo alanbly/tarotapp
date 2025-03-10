@@ -20,6 +20,7 @@ const States = Object.freeze({
   CHOOSE_SIGNIFICATOR_RANK: Symbol('CHOOSE_SIGNIFICATOR_RANK'),
   CHOOSE_SIGNIFICATOR_SUIT: Symbol('CHOOSE_SIGNIFICATOR_SUIT'),
   CHOOSE_SIGNIFICATOR_REVEAL: Symbol('CHOOSE_SIGNIFICATOR_REVEAL'),
+  CHOOSE_SIGNIFICATOR_CUT: Symbol('CHOOSE_SIGNIFICATOR_CUT'),
   EXPLAIN_QUESTION: Symbol('EXPLAIN_QUESTION'),
   CUT_CARDS: Symbol('CUT_CARDS'),
   PART: Symbol('PART'),
@@ -147,11 +148,13 @@ const ChooseSignificator = ({deck, cards, text, selectCard}) => {
 const genderCards = Object.freeze([
   Cards.EMPRESS,
   Cards.WHEEL_OF_FORTUNE,
+  Cards.MAGICIAN,
   Cards.EMPEROR
 ]);
 const genderMap = Object.freeze({
   [Cards.EMPRESS.key]: Genders.FEMALE,
-  [Cards.WHEEL_OF_FORTUNE.key]: Genders.NONBINARY,
+  [Cards.WHEEL_OF_FORTUNE.key]: Genders.PANGENDER,
+  [Cards.MAGICIAN.key]: Genders.AGENDER,
   [Cards.EMPEROR.key]: Genders.MALE,
 });
 
@@ -159,9 +162,11 @@ const ChooseSignificatorGender = ({setGender, setRank, setState, ...params}) => 
   const selectCard = card => {
     const gender = genderMap[card.key];
     setGender(gender);
-    if(gender === Genders.NONBINARY) {
+    if(gender === Genders.AGENDER) {
       setRank(Ranks.ACE);
       setState(States.CHOOSE_SIGNIFICATOR_SUIT);
+    } else if(gender === Genders.PANGENDER) {
+      setState(States.CHOOSE_SIGNIFICATOR_CUT);
     } else {
       setState(States.CHOOSE_SIGNIFICATOR_RANK);
     }
@@ -220,67 +225,6 @@ const ChooseSignificatorSuit = ({setSuit, setState, ...params}) => {
   />;
 };
 
-const significatorMap = Object.freeze({
-  [Genders.MALE]: Object.freeze({
-    [Ranks.KNIGHT.key]: Object.freeze({
-      [Suits.WANDS.key]:     Cards.KNIGHT_OF_WANDS,
-      [Suits.CUPS.key]:      Cards.KNIGHT_OF_CUPS,
-      [Suits.SWORDS.key]:    Cards.KNIGHT_OF_SWORDS,
-      [Suits.PENTACLES.key]: Cards.KNIGHT_OF_PENTACLES,
-    }),
-    [Ranks.KING.key]: Object.freeze({
-      [Suits.WANDS.key]:     Cards.KING_OF_WANDS,
-      [Suits.CUPS.key]:      Cards.KING_OF_CUPS,
-      [Suits.SWORDS.key]:    Cards.KING_OF_SWORDS,
-      [Suits.PENTACLES.key]: Cards.KING_OF_PENTACLES,
-    }),
-  }),
-  [Genders.NONBINARY]: Object.freeze({
-    [Ranks.ACE.key]: Object.freeze({
-      [Suits.WANDS.key]:     Cards.ACE_OF_WANDS,
-      [Suits.CUPS.key]:      Cards.ACE_OF_CUPS,
-      [Suits.SWORDS.key]:    Cards.ACE_OF_SWORDS,
-      [Suits.PENTACLES.key]: Cards.ACE_OF_PENTACLES,
-    }),
-  }),
-  [Genders.FEMALE]: Object.freeze({
-    [Ranks.PAGE.key]: Object.freeze({
-      [Suits.WANDS.key]:     Cards.PAGE_OF_WANDS,
-      [Suits.CUPS.key]:      Cards.PAGE_OF_CUPS,
-      [Suits.SWORDS.key]:    Cards.PAGE_OF_SWORDS,
-      [Suits.PENTACLES.key]: Cards.PAGE_OF_PENTACLES,
-    }),
-    [Ranks.QUEEN.key]: Object.freeze({
-      [Suits.WANDS.key]:     Cards.QUEEN_OF_WANDS,
-      [Suits.CUPS.key]:      Cards.QUEEN_OF_CUPS,
-      [Suits.SWORDS.key]:    Cards.QUEEN_OF_SWORDS,
-      [Suits.PENTACLES.key]: Cards.QUEEN_OF_PENTACLES,
-    }),
-  }),
-});
-
-const ChooseSignificatorReveal = ({
-  setSignificator, 
-  setState, 
-  gender, 
-  suit, 
-  rank, 
-  ...params
-}) => {
-  const selectCard = card => {
-    setSignificator(card);
-    setState(States.EXPLAIN_QUESTION);
-  };
-
-  const significator = significatorMap[gender][rank.key][suit.key];
-
-  return <ChooseSignificator 
-    {...{...params, selectCard}}
-    text={`Your choices have led us to ${significator.name}. Would you have this card as your Significator?`}
-    cards={[significator]}
-  />;
-};
-
 const deckPathStyle = (width, height, fraction) => {
   const radius = 5 * Math.max(width, height);
   const centerY = height * 0.3 + radius;
@@ -298,7 +242,7 @@ const deckPathStyle = (width, height, fraction) => {
   };
 };
 
-const CutCards = ({deck, setState}) => {
+const CardFan = ({text, action, deck, setState}) => {
   const divRef = useRef(null);
   const [alpha, setAlpha] = useState(0);
   const [shown, setShown] = useState(0);
@@ -339,41 +283,118 @@ const CutCards = ({deck, setState}) => {
     return () => clearInterval(intervalID)
   }, [deck]);
 
-  const cutCards = idx => {
-    deck.cut(idx);
-    setState(States.PART);
-  };
-
   const style = {
     opacity: alpha,
   };
 
   const deckStyle = deckPathStyle(size.width, size.height, position);
 
-  const cardStyleBase = {
-
-  };
-
   const divCls = classNames(styles.phase, styles.cut);
 
   return <div ref={divRef} className={divCls} style={style}>
-    <span className={styles.text}>Cut the deck, and the reading can begin.</span>
+    <span className={styles.text}>{text}</span>
     {[...Array(shown).keys()].map((_, idx) => {
-      const cardStyle = {
-        ...cardStyleBase,
-        ...deckPathStyle(size.width, size.height, idx/cardCount),
-      }
+      const cardStyle = deckPathStyle(size.width, size.height, idx/cardCount);
       return <Deck 
         key={idx}
         className={styles.deck}
         style={cardStyle}
-        onClick={() => cutCards(idx)}
+        onClick={() => action(idx)}
         {...{deck}}
       />;
     })}
     <Deck className={styles.deck} {...{deck}} style={deckStyle}/>
   </div>;
 };
+
+const ChooseSignificatorCut = ({setState, setSignificator, ...params}) => {
+  const chooseCard = idx => {
+    const significator = params.deck.undrawn[idx];
+    setSignificator(significator);
+    setState(States.CHOOSE_SIGNIFICATOR_REVEAL);
+  };
+
+  return <CardFan
+    text={`${Cards.WHEEL_OF_FORTUNE.name}. Then we must let fate decide for us...`}
+    action={chooseCard}
+    {...params}
+  />
+}
+
+const significatorMap = Object.freeze({
+  [Genders.MALE]: Object.freeze({
+    [Ranks.KNIGHT.key]: Object.freeze({
+      [Suits.WANDS.key]:     Cards.KNIGHT_OF_WANDS,
+      [Suits.CUPS.key]:      Cards.KNIGHT_OF_CUPS,
+      [Suits.SWORDS.key]:    Cards.KNIGHT_OF_SWORDS,
+      [Suits.PENTACLES.key]: Cards.KNIGHT_OF_PENTACLES,
+    }),
+    [Ranks.KING.key]: Object.freeze({
+      [Suits.WANDS.key]:     Cards.KING_OF_WANDS,
+      [Suits.CUPS.key]:      Cards.KING_OF_CUPS,
+      [Suits.SWORDS.key]:    Cards.KING_OF_SWORDS,
+      [Suits.PENTACLES.key]: Cards.KING_OF_PENTACLES,
+    }),
+  }),
+  [Genders.AGENDER]: Object.freeze({
+    [Ranks.ACE.key]: Object.freeze({
+      [Suits.WANDS.key]:     Cards.ACE_OF_WANDS,
+      [Suits.CUPS.key]:      Cards.ACE_OF_CUPS,
+      [Suits.SWORDS.key]:    Cards.ACE_OF_SWORDS,
+      [Suits.PENTACLES.key]: Cards.ACE_OF_PENTACLES,
+    }),
+  }),
+  [Genders.FEMALE]: Object.freeze({
+    [Ranks.PAGE.key]: Object.freeze({
+      [Suits.WANDS.key]:     Cards.PAGE_OF_WANDS,
+      [Suits.CUPS.key]:      Cards.PAGE_OF_CUPS,
+      [Suits.SWORDS.key]:    Cards.PAGE_OF_SWORDS,
+      [Suits.PENTACLES.key]: Cards.PAGE_OF_PENTACLES,
+    }),
+    [Ranks.QUEEN.key]: Object.freeze({
+      [Suits.WANDS.key]:     Cards.QUEEN_OF_WANDS,
+      [Suits.CUPS.key]:      Cards.QUEEN_OF_CUPS,
+      [Suits.SWORDS.key]:    Cards.QUEEN_OF_SWORDS,
+      [Suits.PENTACLES.key]: Cards.QUEEN_OF_PENTACLES,
+    }),
+  }),
+});
+
+const ChooseSignificatorReveal = ({
+  setSignificator, 
+  setState, 
+  gender, 
+  suit, 
+  rank, 
+  significator: chosen,
+  ...params
+}) => {
+  const selectCard = card => {
+    setSignificator(card);
+    setState(States.EXPLAIN_QUESTION);
+  };
+
+  const significator = chosen || significatorMap[gender][rank.key][suit.key];
+
+  return <ChooseSignificator 
+    {...{...params, selectCard}}
+    text={`Your choices have led us to ${significator.name}. Would you have this card as your Significator?`}
+    cards={[significator]}
+  />;
+};
+
+const CutCards = ({setState, ...params}) => {
+  const cutCards = idx => {
+    params.deck.cut(idx);
+    setState(States.PART);
+  };
+
+  return <CardFan
+    text={`Cut the deck, and the reading can begin.`}
+    action={cutCards}
+    {...params}
+  />
+}
 
 const PartVeil = ({partVeil}) => {
   const [alpha, setAlpha] = useState(0);
@@ -415,6 +436,7 @@ const introduction = Object.freeze([
   Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_GENDER, ChooseSignificatorGender)),
   Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_RANK, ChooseSignificatorRank)),
   Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_SUIT, ChooseSignificatorSuit)),
+  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_CUT, ChooseSignificatorCut)),
   Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_REVEAL, ChooseSignificatorReveal)),
   Object.freeze(new Phase(States.EXPLAIN_QUESTION, `You have chosen your Significator, now you must ask the cards for their favor. The Question can be nothing but the truest expression of your needs. The cards do not brook frivolity. Form the question in your mind and hold onto it tightly.`, [
     new Action('Abandon the Reading', true, States.VEIL, {fadeIn: true, fadeOut: false}),

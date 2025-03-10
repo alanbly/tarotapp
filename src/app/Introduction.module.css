@@ -65,6 +65,7 @@
 }
 
 .card {
+    cursor: grab;
     height: 30vh;
 }
 

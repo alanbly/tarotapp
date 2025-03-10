@@ -3,7 +3,8 @@ import {Position, Rotations, getCardSize} from './render';
 export const Genders = Object.freeze({
   MALE: Symbol('MALE'),
   FEMALE: Symbol('FEMALE'),
-  NONBINARY: Symbol('NONBINARY'),
+  AGENDER: Symbol('AGENDER'),
+  PANGENDER: Symbol('PANGENDER'),
 });
 
 export class Suit {
