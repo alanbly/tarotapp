@@ -380,7 +380,7 @@ export const Cards = Object.freeze({
 });
 
 export class Deck extends EventTarget {
-  constructor(name, slug, cards) {
+  constructor(name, slug, cards = []) {
     super();
 
     this.name = name;
@@ -391,6 +391,11 @@ export class Deck extends EventTarget {
     this.undrawn = cards.slice();
     this.drawn = [];
     this.shuffle();
+  }
+
+  copy() {
+    const copy = new Deck();
+    return Object.assign(copy, this);
   }
 
   #emitChangeEvent() {
@@ -404,8 +409,9 @@ export class Deck extends EventTarget {
     return next;
   }
 
-  pullCard(key) {
-    const idx = this.undrawn.find(card => card.key === key);
+  pullCard(toPull) {
+    const key = typeof toPull === 'Symbol' ? toPull : toPull.key;
+    const idx = this.undrawn.findIndex(card => card.key === key);
     if (idx < 0) {
       return null;
     }

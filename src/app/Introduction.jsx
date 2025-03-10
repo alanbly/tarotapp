@@ -1,12 +1,14 @@
 'use client'
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
 
 import Card from './Card';
+import Deck from './Deck';
 import SwirlingMist from './SwirlingMist';
 import {Cards, Genders, Ranks, Suits} from './tarot';
+import {AspectRatio} from './render';
 
 import styles from './Introduction.module.css';
 
@@ -34,7 +36,7 @@ class Action {
 }
 
 class Phase {
-  constructor(state, content, actions) {
+  constructor(state, content, actions = []) {
     this.state = state;
     this.content = content;
     this.actions = actions;
@@ -279,8 +281,98 @@ const ChooseSignificatorReveal = ({
   />;
 };
 
-const CutCards = ({deck}) => {
-  return <div className={styles.phase}></div>;
+const deckPathStyle = (width, height, fraction) => {
+  const radius = 5 * Math.max(width, height);
+  const centerY = height * 0.3 + radius;
+  const baseAngle = Math.asin( 0.8 * width / (2 * radius) );
+  const arcAngle = 2 * baseAngle;
+  const theta = -baseAngle + fraction * arcAngle;
+  const offsetX = 0.15 * height * AspectRatio.TAROT;
+
+  const top = centerY - Math.cos(theta) * radius;
+  const left = width / 2 + Math.sin(theta) * radius - offsetX;
+  const transform = `rotate(${theta}rad)`;
+
+  return {
+    top, left, transform,
+  };
+};
+
+const CutCards = ({deck, setState}) => {
+  const divRef = useRef(null);
+  const [alpha, setAlpha] = useState(0);
+  const [shown, setShown] = useState(0);
+  const [size, setSize] = useState({ width: 800, height: 600 });
+  const [position, setPosition] = useState(0.0);
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (divRef.current) {
+        const rect = divRef.current.getBoundingClientRect();
+        setSize({ width: rect.width, height: rect.height });
+      }
+    };
+
+    updateSize(); // Initial size on mount
+    window.addEventListener('resize', updateSize); // Update on window resize
+
+    return () => {
+      window.removeEventListener('resize', updateSize); // Clean up listener
+    };
+  }, [divRef.current]);
+
+  const cardCount = 1.0 * deck.undrawn.length;
+
+  useEffect(() => {
+    setAlpha(1.0);
+
+    deck.shuffle();
+
+    const driver = {position};
+    const intervalID = setInterval(() => {
+      driver.position += 0.8 / deck.undrawn.length;
+      const position = Math.min(1.0, driver.position)
+      setPosition(position);
+      setShown(1 + Math.floor(position * cardCount));
+    }, 10);
+
+    return () => clearInterval(intervalID)
+  }, [deck]);
+
+  const cutCards = idx => {
+    deck.cut(idx);
+    setState(States.PART);
+  };
+
+  const style = {
+    opacity: alpha,
+  };
+
+  const deckStyle = deckPathStyle(size.width, size.height, position);
+
+  const cardStyleBase = {
+
+  };
+
+  const divCls = classNames(styles.phase, styles.cut);
+
+  return <div ref={divRef} className={divCls} style={style}>
+    <span className={styles.text}>Cut the deck, and the reading can begin.</span>
+    {[...Array(shown).keys()].map((_, idx) => {
+      const cardStyle = {
+        ...cardStyleBase,
+        ...deckPathStyle(size.width, size.height, idx/cardCount),
+      }
+      return <Deck 
+        key={idx}
+        className={styles.deck}
+        style={cardStyle}
+        onClick={() => cutCards(idx)}
+        {...{deck}}
+      />;
+    })}
+    <Deck className={styles.deck} {...{deck}} style={deckStyle}/>
+  </div>;
 };
 
 const PartVeil = ({deck, setCards, significator, ...params}) => {
@@ -299,7 +391,7 @@ const PartVeil = ({deck, setCards, significator, ...params}) => {
       deck.pullCard(significator);
       setCards(deck.drawn.slice());
     }, 2000);
-  }, [text]);
+  }, []);
 
   const style = {
     opacity: alpha,
@@ -322,16 +414,16 @@ const introduction = Object.freeze([
     new Action('Leave Now', true, States.VEIL, {fadeIn: true, fadeOut: false}),
     new Action('Continue', false, States.CHOOSE_SIGNIFICATOR_GENDER),
   ])),
-  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_GENDER, ChooseSignificatorGender, [])),
-  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_RANK, ChooseSignificatorRank, [])),
-  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_SUIT, ChooseSignificatorSuit, [])),
-  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_REVEAL, ChooseSignificatorReveal, [])),
+  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_GENDER, ChooseSignificatorGender)),
+  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_RANK, ChooseSignificatorRank)),
+  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_SUIT, ChooseSignificatorSuit)),
+  Object.freeze(new Phase(States.CHOOSE_SIGNIFICATOR_REVEAL, ChooseSignificatorReveal)),
   Object.freeze(new Phase(States.EXPLAIN_QUESTION, `You have chosen your Significator, now you must ask the cards for their favor. The Question can be nothing but the truest expression of your needs. The cards do not brook frivolity. Form the question in your mind and hold onto it tightly.`, [
     new Action('Abandon the Reading', true, States.VEIL, {fadeIn: true, fadeOut: false}),
     new Action('I Have It', false, States.CUT_CARDS),
   ])),
-  Object.freeze(new Phase(States.CUT_CARDS, CutCards, [])),
-  Object.freeze(new Phase(States.PART, PartVeil, [])),
+  Object.freeze(new Phase(States.CUT_CARDS, CutCards)),
+  Object.freeze(new Phase(States.PART, PartVeil)),
 ].reduce((obj, phase) => {
   obj[phase.state] = phase;
   return obj;
@@ -342,7 +434,7 @@ export const Introduction = ({
   deck,
   setCards,
   setSelectedCard,
-  initialState = States.VEIL
+  initialState = States.VEIL,
 }) => {
   const [state, setState] = useState(initialState);
   const [parameters, setParameters] = useState({});

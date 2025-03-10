@@ -81,3 +81,8 @@
 .action.primary {
 
 }
+
+.deck {
+    position: absolute;
+    height: 30vh;
+}

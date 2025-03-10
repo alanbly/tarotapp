@@ -25,7 +25,7 @@ const Spread = ({className, spread, deck, cards, hoverCard, setHoverCard, setSel
     return () => {
       window.removeEventListener('resize', updateSize); // Clean up listener
     };
-  }, []);
+  }, [divRef.current]);
 
   const cardHeight = size.height * 0.3;
   const cardWidth = cardHeight * AspectRatio.TAROT;

@@ -5,13 +5,12 @@ import classNames from 'classnames';
 
 import styles from './Deck.module.css';
 
-export const Deck = ({className, style, deck, position, drawCard}) => {
+export const Deck = ({className, style, deck, position, onClick}) => {
   const deckCls = classNames(styles.introduction, className, {});
   return <img 
     className={deckCls}
     src={deck.getCardImageSrc('back.png')}
-    onClick={drawCard}
-    style={style}
+    {...{onClick, style}}
   />;
 };
 

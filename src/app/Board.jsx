@@ -12,7 +12,7 @@ import styles from './Board.module.css';
 
 const Board = () => {
   const [cards, setCards] = useState([]);
-  const [deck, setDeck] = useState(Decks.RIDER_WAITE_TAROT);
+  const [deck, setDeck] = useState(Decks.RIDER_WAITE_TAROT.copy());
   const [spread, setSpread] = useState(Spreads.CELTIC);
   const [selectedCard, setSelectedCard] = useState(null);
   const [hoverCard, setHoverCard] = useState(null);
@@ -30,10 +30,10 @@ const Board = () => {
 
   return <div className={styles.frame} onClick={() => setSelectedCard(null)}>
     <div className={styles.board}>
-      <Deck className={styles.deck} {...{deck, drawCard}} style={deckStyle}/>
+      {cards.length > 0 && <Deck className={styles.deck} {...{deck}} onClick={drawCard} style={deckStyle}/>}
       <Spread className={styles.spread} {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard}} />
     </div>
-    {cards.length == 0 && <Introduction className={styles.introduction} {...{deck, setCards, setSelectedCard}}/>}
+    {cards.length === 0 && <Introduction className={styles.introduction} {...{deck, setCards, setSelectedCard}}/>}
     {selectedCard && <CardDetail className={styles.detail} {...{deck, card: selectedCard, setSelectedCard}}/>}
   </div>;
 };
