@@ -20,11 +20,15 @@ const Spread = ({className, spread, deck, cards, hoverCard, setHoverCard, setSel
     };
 
     updateSize(); // Initial size on mount
-    window.addEventListener('resize', updateSize); // Update on window resize
 
-    return () => {
-      window.removeEventListener('resize', updateSize); // Clean up listener
-    };
+    if (divRef.current) {
+      const resizeObserver = new ResizeObserver(updateSize);
+      resizeObserver.observe(divRef.current); // Update on div resize
+
+      return () => {
+        resizeObserver.disconnect(); // Clean up listener
+      };
+    }
   }, [divRef.current]);
 
   const cardHeight = size.height * 0.3;
