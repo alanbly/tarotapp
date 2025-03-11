@@ -39,8 +39,10 @@ const Spread = ({className, spread, deck, cards, hoverCard, setHoverCard, setSel
     event.stopPropagation();
   };
 
+  const facing = cards[0] ? cards[0].facing : null;
+
   return <div ref={divRef} className={spreadCls}>
-    <style>{spread.getStyles(styles.card, size.width, size.height, 1, cardWidth, cardHeight)}</style>
+    <style>{spread.getStyles(styles.card, size.width, size.height, 1, cardWidth, cardHeight, facing)}</style>
     {
       cards.map((card, idx) => {
         return <Card

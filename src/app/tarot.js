@@ -211,7 +211,7 @@ export const Cards = Object.freeze({
     "Adaptability, steady force applied to an object, steady rule, great attractive power, power of command, yet liked notwithstanding. Kind and generous when not opposed.\nIf ill dignified, obstinate, revengeful, domineering, tyrannical, and apt to turn against another without a cause.\nShe rules the heavens from above the last Decan of Pisces to above the 20 Degree of Aries: including thus a part of Andromeda.\nWater of Fire\nQueen of the Salamanders.")),
   KING_OF_WANDS: Object.freeze(new Card('KingOfWands.png', Suits.WANDS, Ranks.KING, Facings.LEFT, 13, 7, 'The King Of Wands',
     "The Prince of the Chariot of Fire",
-    "A Kingly Figure with a golden, winged crown, seated on a chariot. He has large white wings. One wheel of his chariot is shewn. He wears corslet and buskins of scale armour decorated with a winged lion's head, which symbol also surmounts his crown. His chariot is drawn by a lion. His arms are bare, save for the shoulder-pieces of the corslet, and he bears a torch or fire-wand, somewhat similar to that of the Zelator Adeptus Minor. Beneath the chariot are flames, some waved, some salient.",
+    "A Kingly Figure with a golden, winged crown, seated on a chariot. He has large white wings. One wheel of his chariot is shown. He wears corslet and buskins of scale armour decorated with a winged lion's head, which symbol also surmounts his crown. His chariot is drawn by a lion. His arms are bare, save for the shoulder-pieces of the corslet, and he bears a torch or fire-wand, somewhat similar to that of the Zelator Adeptus Minor. Beneath the chariot are flames, some waved, some salient.",
     "Swift, strong, hasty; rather violent, yet just and generous; noble and scorning meanness.\nIf ill dignified cruel, intolerant, prejudiced and ill natured. He rules the heavens from above the last Decan of Cancer to the second Decan of Leo; hence he includes most of Leo Minor.\nAir of Fire\nPrince and Emperor of Salamanders.")),
 
   ACE_OF_CUPS: Object.freeze(new Card('AceOfCups.png', Suits.CUPS, Ranks.ACE, Facings.NONE, 0, 2, 'The Ace Of Cups',
@@ -305,11 +305,11 @@ export const Cards = Object.freeze({
     "Too much force applied to small things: too much attention to detail at the expense of the principal and more important points. When ill dignified, these qualities produce malice, pettiness, and domineering characteristics. Patience in detail of study; great care in some things, counterbalanced by equal disorder in others. Impulsive; equally fond of giving or receiving money or presents; generous, clever, acute, selfish and without strong feeling of affection. Admires wisdom, yet applies it to small and unworthy objects.\nHod of HB:V (<span direction='rtl'></span>) (Narrow, restricted, petty, a prison).\nTherein rule the Angels HB:VMBAL (<span direction='rtl'></span>) and HB:YHHAL (<span direction='rtl'></span>)")),
   NINE_OF_SWORDS: Object.freeze(new Card('NineOfSwords.png', Suits.SWORDS, Ranks.NINE, Facings.RIGHT, 8, 52, 'The Nine Of Swords',
     "The Lord of Despair and Cruelty",
-    "FOUR Hands, as in the preceding figure, hold eight swords nearly upright, but with the points falling away from each other. A fifth hand holds a ninth sword upright in the centre, as if it had struck them asunder. No rose at all is shewn, as if it were not merely cut asunder, but utterly destroyed. Above and below are the Decan symbols Mars and Gemini.",
+    "FOUR Hands, as in the preceding figure, hold eight swords nearly upright, but with the points falling away from each other. A fifth hand holds a ninth sword upright in the centre, as if it had struck them asunder. No rose at all is shown, as if it were not merely cut asunder, but utterly destroyed. Above and below are the Decan symbols Mars and Gemini.",
     "Despair, cruelty, pitilessness, malice, suffering, want, loss, misery. Burden, oppression, labour, subtlety and craft, dishonesty, lying and slander.\nYet also obedience, faithfulness, patience, unselfishness, etc. According to dignity.\nYesod of HB:V (<span direction='rtl'></span>) (Illness, suffering, malice, cruelty, pain).\nTherein do HB:a (<span direction='rtl'></span>)'aNVAL and HB:MChYAL (<span direction='rtl'></span>) bear rule. ")),
   TEN_OF_SWORDS: Object.freeze(new Card('TenOfSwords.png', Suits.SWORDS, Ranks.TEN, Facings.NONE, 9, 53, 'The Ten Of Swords',
     "The Lord of Ruin",
-    "FOUR hands holding eight swords, as in the preceding symbol; the points falling away from each other. Two hands hold two swords crossed in the centre, as though their junction had disunited the others. No rose, flower or bud, is shewn. Above and below are Sun and Gemini, representing the Decan",
+    "FOUR hands holding eight swords, as in the preceding symbol; the points falling away from each other. Two hands hold two swords crossed in the centre, as though their junction had disunited the others. No rose, flower or bud, is shown. Above and below are Sun and Gemini, representing the Decan",
     "Almost a worse symbol than the Nine of Swords. Undisciplined, warring force, complete disruption and failure. Ruin of all plans and projects. Disdain, insolence and impertinence, yet mirth and jollity therewith. A marplot, loving to overthrow the happiness of others; a repeater of things; given to much unprofitable speech, and of many words. Yet clever, eloquent, etc., according to dignity.\nMalkuth of HB:V (<span direction='rtl'></span>) (Ruin, death, defeat, disruption).\nHerein the Angels HB:DMBYH (<span direction='rtl'></span>) and HB:MNQAL (<span direction='rtl'></span>) reign.")),
   PAGE_OF_SWORDS: Object.freeze(new Card('PageOfSwords.png', Suits.SWORDS, Ranks.PAGE, Facings.LEFT, 10, 16, 'The Page Of Swords',
     "The Princess of the Rushing Winds: the Lotus of the Palace of Air",
@@ -325,12 +325,12 @@ export const Cards = Object.freeze({
     "Intensely perceptive, keen observation, subtle, quick and confident: often persevering, accurate in superficial things, graceful, fond of dancing and balancing.\nIf ill dignified, cruel, sly, deceitful, unreliable, though with a good exterior.\nRules from 20 Degree Virgo to 20 Degree Libra.\nWater of Air\nQueen of the Sylphs and Sylphides.")),
   KING_OF_SWORDS: Object.freeze(new Card('KingOfSwords.png', Suits.SWORDS, Ranks.KING, Facings.FORWARD, 13, 15, 'The King Of Swords',
     "The Prince of the Chariot of the Winds",
-    "A Winged King with Winged Crown, seated in a chariot drawn by Arch Fays, represented as winged youths very slightly dressed, with butterfly wings: heads encircled by a fillet with a pentagram thereon: and holding wands surmounted by pentagrams, the same butterfly wings on their feet and fillets. He has large white wings. One wheel of his chariot is shewn. He wears corslet and buskins of scale armour. He bears as a crest a winged angelic head with a pentagram on the brows. Beneath the chariot are grey nimbus clouds. His hair long and waving in serpentine whirls, and whorl figures compose the scales of his armour. A drawn sword in one hand; a sickle in the other. With the sword he rules, with the sickle he slays.",
+    "A Winged King with Winged Crown, seated in a chariot drawn by Arch Fays, represented as winged youths very slightly dressed, with butterfly wings: heads encircled by a fillet with a pentagram thereon: and holding wands surmounted by pentagrams, the same butterfly wings on their feet and fillets. He has large white wings. One wheel of his chariot is shown. He wears corslet and buskins of scale armour. He bears as a crest a winged angelic head with a pentagram on the brows. Beneath the chariot are grey nimbus clouds. His hair long and waving in serpentine whirls, and whorl figures compose the scales of his armour. A drawn sword in one hand; a sickle in the other. With the sword he rules, with the sickle he slays.",
     "Full of ideas and thoughts and designs, distrustful, suspicious, firm in friendship and enmity; careful, observant, slow, over-cautious, symbolizes GR:Alpha and GR:Omega; he slays as fast as he creates.\nIf ill dignified: harsh, malicious, plotting; obstinate, yet hesitating; unreliable.\nRules from 20 Degree Capricorn to 20 Degree Aquarius.\nAir of Air\nPrince and Emperor of the Sylphs and Sylphides.")),
 
   ACE_OF_PENTACLES: Object.freeze(new Card('AceOfPentacles.png', Suits.PENTACLES, Ranks.ACE, Facings.NONE, 0, 4, 'The Ace Of Pentacles',
     'The Root of the Powers of Earth',
-    "A White Radiant Angelic Hand, holding a branch of a Rose Tree, whereon is a large Pentacle, formed of Five concentric circles. The Innermost Circle is white, charged with a red Greek Cross. From this White Centre, Twelve Rays, also white, issue: these terminate at the circumference, making the whole something like an Astrological figure of the Heavens.\nIt is surmounted by a small circle, above which is a large white Maltese Cross, and with two white wings.\nFour Crosses and two buds are shewn. The Hand issueth from the Clouds as in the other three cases.",
+    "A White Radiant Angelic Hand, holding a branch of a Rose Tree, whereon is a large Pentacle, formed of Five concentric circles. The Innermost Circle is white, charged with a red Greek Cross. From this White Centre, Twelve Rays, also white, issue: these terminate at the circumference, making the whole something like an Astrological figure of the Heavens.\nIt is surmounted by a small circle, above which is a large white Maltese Cross, and with two white wings.\nFour Crosses and two buds are shown. The Hand issueth from the Clouds as in the other three cases.",
     "It represents materiality in all senses, good and evil: and is, therefore, in a sense, illusionary: it shows material gain, labour, power, wealth, etc")),
   TWO_OF_PENTACLES: Object.freeze(new Card('TwoOfPentacles.png', Suits.PENTACLES, Ranks.TWO, Facings.RIGHT, 1, 36, 'The Two Of Pentacles',
     "The Lord of Harmonious Change",
@@ -349,7 +349,7 @@ export const Cards = Object.freeze({
   SIX_OF_PENTACLES: Object.freeze(new Card('SixOfPentacles.png', Suits.PENTACLES, Ranks.SIX, Facings.NONE, 5, 49, 'The Six Of Pentacles',
     "The Lord of Material Success", "A WHITE Radiant Angelic Hand holding a rose branch with white roses and buds, each of which touches a Pentacle. Pentacles are arranged in two columns of three each.\nAbove and below are the symbols Taurus and Moon of the Decan", "Success and gain in material undertakings. Power, influence, rank, nobility, rule over the people. Fortunate, successful, liberal and just.\nIf ill dignified, may be purse-proud, insolent from excess, or prodigal.\nTiphareth of HB:H (<span direction='rtl'></span>) (Success in material things, prosperity in business).\nHerein rule the Angels HB:NMMYH (<span direction='rtl'></span>) and HB:YYLAL (<span direction='rtl'></span>)")),
   SEVEN_OF_PENTACLES: Object.freeze(new Card('SevenOfPentacles.png', Suits.PENTACLES, Ranks.SEVEN, Facings.LEFT, 6, 50, 'The Seven Of Pentacles',
-    "The Lord of Success Unfulfilled", "A WHITE Radiating Angelic Hand issuing from a cloud, and holding a white rose branch. Seven Pentacles arranged like the geomantic figure Rubeus.\nThere are only five buds, which overhang, but do not touch the five uppermost\nPentacles. Above and below are the Decan symbols, Saturn and Taurus respectively. ", "Promises of success unfulfilled. (Shewn, as it were, by the fact that the rosebuds do not come to anything.) Loss of apparently promising fortune. Hopes deceived and crushed. Disappointment, misery, slavery, necessity and baseness. A cultivator of land, and yet a loser thereby. Sometimes it denotes slight and isolated gains with no fruits resulting therefrom, and of no further account, though seeming to promise well.\nNetzach of HB:H (<span direction='rtl'></span>) (Unprofitable speculations and employments; little gain for much labour).\nTherein HB:HRChAL (<span direction='rtl'></span>) and HB:MTzRAL (<span direction='rtl'></span>) are ruling Angels")),
+    "The Lord of Success Unfulfilled", "A WHITE Radiating Angelic Hand issuing from a cloud, and holding a white rose branch. Seven Pentacles arranged like the geomantic figure Rubeus.\nThere are only five buds, which overhang, but do not touch the five uppermost\nPentacles. Above and below are the Decan symbols, Saturn and Taurus respectively. ", "Promises of success unfulfilled. (shown, as it were, by the fact that the rosebuds do not come to anything.) Loss of apparently promising fortune. Hopes deceived and crushed. Disappointment, misery, slavery, necessity and baseness. A cultivator of land, and yet a loser thereby. Sometimes it denotes slight and isolated gains with no fruits resulting therefrom, and of no further account, though seeming to promise well.\nNetzach of HB:H (<span direction='rtl'></span>) (Unprofitable speculations and employments; little gain for much labour).\nTherein HB:HRChAL (<span direction='rtl'></span>) and HB:MTzRAL (<span direction='rtl'></span>) are ruling Angels")),
   EIGHT_OF_PENTACLES: Object.freeze(new Card('EightOfPentacles.png', Suits.PENTACLES, Ranks.EIGHT, Facings.RIGHT, 7, 24, 'The Eight Of Pentacles',
     "The Lord of Prudence",
     "A WHITE Radiating Angelic Hand, issuing from a cloud, and grasping a branch of a rose tree, with four white roses thereon, which touch only the four lowermost Pentacles. No rosebuds even, but only leaves, touch the four uppermost disks. All the Pentacles are similar to that of the Ace, but without the Maltese cross and wings. They are arranged like the geomantic figure Populus. Above and below them are the symbols Sun and Virgo for the Decan.",
@@ -360,7 +360,7 @@ export const Cards = Object.freeze({
     "Complete realization of material gain, good, riches; inheritance; covetous; treasuring of goods; and sometimes theft and knavery. The whole according to dignity.\nYesod of HB:H (<span direction='rtl'></span>) (Inheritance, much increase of goods).\nHerein those mighty Angels HB:HZYAL (<span direction='rtl'></span>) and HB:ALDYH (<span direction='rtl'></span>) have rule and dominion")),
   TEN_OF_PENTACLES: Object.freeze(new Card('TenOfPentacles.png', Suits.PENTACLES, Ranks.TEN, Facings.NONE, 9, 26, 'The Ten Of Pentacles',
     "The Lord of Wealth",
-    "AN Angelic Hand, holding by the lower extremity a branch whose roses touch all the Pentacles. No buds, however, are shewn. The symbols of Mercury and Virgo are above and below. The Pentacles are arranged two at the top, one centerred, four in the midle, another centerred, and two at the bottom.",
+    "AN Angelic Hand, holding by the lower extremity a branch whose roses touch all the Pentacles. No buds, however, are shown. The symbols of Mercury and Virgo are above and below. The Pentacles are arranged two at the top, one centerred, four in the midle, another centerred, and two at the bottom.",
     "Completion of material gain and fortune; but nothing beyond: as it were, at the very pinnacle of success. Old age, slothfulness; great wealth, yet sometimes loss in part; heaviness; dullness of mind, yet clever and prosperous in money transactions.\nMalkuth of HB:H (<span direction='rtl'></span>) (Riches and wealth).\nHerein are HB:LAVYH (<span direction='rtl'></span>) and HB:HHa (<span direction='rtl'></span>)'aYH set over this Decan as Angel Rulers.")),
   PAGE_OF_PENTACLES: Object.freeze(new Card('PageOfPentacles.png', Suits.PENTACLES, Ranks.PAGE, Facings.RIGHT, 10, 20, 'The Page Of Pentacles',
     "The Princess of the Echoing Hills: the Rose of the Palace of Earth",
@@ -478,10 +478,25 @@ const normalizePlacements = (placements) => {
   return mapped;
 }
 
+export class Placement {
+  constructor(x, y, rotation, interpretation) {
+    this.x = x;
+    this.y = y;
+    this.rotation = rotation;
+    this.interpretation = interpretation;
+  }
+}
+
 export class Spread {
   constructor(name, deckLocation, placements) {
     this.name = name;
-    [this.deckLocation, ...this.placements] = normalizePlacements([deckLocation, ...placements]);
+    this.placements = {};
+    this.placements = {};
+    this.deckLocation = {};
+    Object.getOwnPropertySymbols(placements).forEach(facing =>
+      [this.deckLocation[facing], ...this.placements[facing]] =
+        normalizePlacements([deckLocation, ...placements[facing]])
+    );
 
     this.key = Symbol(name);
   }
@@ -507,16 +522,18 @@ export class Spread {
     );
   }
 
-  getCardPosition(width, height, idx) {
-    return this.positionFromPlacement(width, height, this.placements[idx]);
+  getCardPosition(width, height, idx, facing) {
+    return this.positionFromPlacement(width, height, this.placements[facing][idx]);
   }
 
-  getDeckPosition(width, height) {
-    return this.positionFromPlacement(width, height, this.deckLocation);
+  getDeckPosition(width, height, facing) {
+    return this.positionFromPlacement(width, height, this.deckLocation[facing]);
   }
 
-  getStyles(className, width, height, offset, insetX = 0, insetY = 0) {
-    return this.placements.map((placement, idx) => {
+  getStyles(className, width, height, offset, insetX = 0, insetY = 0, facing = Facings.LEFT, ) {
+    const key = facing === Facings.RIGHT ? Facings.RIGHT : Facings.LEFT;
+    const placements = this.placements[key] || [];
+    return placements.map((placement, idx) => {
       const {x, y, rotation} = this.positionFromPlacement(width, height, placement, insetX, insetY);
       return `
         .${className}:nth-child(${idx + offset + 1}) {
@@ -530,17 +547,34 @@ export class Spread {
 
 export const Spreads = Object.freeze({
   CELTIC: Object.freeze(new Spread('Celtic Divination', 
-    {x: 1, y: 1, rotation: Rotations.UPRIGHT}, 
-    [
-      {x: 2, y: 4, rotation: Rotations.UPRIGHT},
-      {x: 2, y: 4, rotation: Rotations.RIGHT},
-      {x: 2, y: 1, rotation: Rotations.UPRIGHT},
-      {x: 2, y: 7, rotation: Rotations.UPRIGHT},
-      {x: 3, y: 4, rotation: Rotations.UPRIGHT},
-      {x: 1, y: 4, rotation: Rotations.UPRIGHT},
-      {x: 4, y: 7, rotation: Rotations.UPRIGHT},
-      {x: 4, y: 5, rotation: Rotations.UPRIGHT},
-      {x: 4, y: 3, rotation: Rotations.UPRIGHT},
-      {x: 4, y: 1, rotation: Rotations.UPRIGHT},
-    ])),
+    new Placement(1, 1, Rotations.UPRIGHT, ``), 
+    {
+      [Facings.RIGHT]: [
+        new Placement(2, 4, Rotations.UPRIGHT, `The Significator`),
+        new Placement(2, 4, Rotations.UPRIGHT, `This covers the Significator. This card gives the influence which is affecting the Querent or Question generally, the atmosphere of it in which the other currents work.`),
+        new Placement(2, 4, Rotations.RIGHT, `This crosses the Significator. It shows the nature of the obstacles in the Question. If it is a favourable card, the opposing forces will not be serious, or it may indicate that something good in itself will not be productive of good in the particular connexion.`),
+        new Placement(2, 7, Rotations.UPRIGHT, `This crowns the Significator. It represents (a) the Querent's aim or ideal in the Question; (b) the best that can be achieved under the circumstances, but that which has not yet been made actual.`),
+        new Placement(2, 1, Rotations.UPRIGHT, `This is beneath the Significator. It shows the foundation or basis of the Question, that which has already passed into actuality and which the Significator has made his own.`),
+        new Placement(1, 4, Rotations.UPRIGHT, `This is before the Significator. It shows the influence that is coming into action and will operate in the near future.`),
+        new Placement(3, 4, Rotations.UPRIGHT, `This is behind the Significator. It gives the influence that is just passed, or is now passing away.`),
+        new Placement(4, 7, Rotations.UPRIGHT, `This represents the Significator itself and shows its position or attitude in the circumstances.`),
+        new Placement(4, 5, Rotations.UPRIGHT, `This represents the Significator's house, that is, his environment and the tendencies at work therein which have an effect on the Question. For instance, his position in life, the influence of immediate friends, and so forth`),
+        new Placement(4, 3, Rotations.UPRIGHT, `This represents the hopes or fears of the Querent with regard to the Question`),
+        new Placement(4, 1, Rotations.UPRIGHT, `This represents what will come, the final result, the culmination which is brought about by the influences shown by the other cards that have been turned up in the divination. `),
+      ],
+      [Facings.LEFT]: [
+        new Placement(2, 4, Rotations.UPRIGHT, `The Significator`),
+        new Placement(2, 4, Rotations.UPRIGHT, `This covers the Significator. This card gives the influence which is affecting the Querent or Question generally, the atmosphere of it in which the other currents work.`),
+        new Placement(2, 4, Rotations.RIGHT, `This crosses the Significator. It shows the nature of the obstacles in the Question. If it is a favourable card, the opposing forces will not be serious, or it may indicate that something good in itself will not be productive of good in the particular connexion.`),
+        new Placement(2, 7, Rotations.UPRIGHT, `This crowns the Significator. It represents (a) the Querent's aim or ideal in the Question; (b) the best that can be achieved under the circumstances, but that which has not yet been made actual.`),
+        new Placement(2, 1, Rotations.UPRIGHT, `This is beneath the Significator. It shows the foundation or basis of the Question, that which has already passed into actuality and which the Significator has made his own.`),
+        new Placement(3, 4, Rotations.UPRIGHT, `This is behind the Significator. It gives the influence that is just passed, or is now passing away.`),
+        new Placement(1, 4, Rotations.UPRIGHT, `This is before the Significator. It shows the influence that is coming into action and will operate in the near future.`),
+        new Placement(4, 7, Rotations.UPRIGHT, `This represents the Significator itself and shows its position or attitude in the circumstances.`),
+        new Placement(4, 5, Rotations.UPRIGHT, `This represents the Significator's house, that is, his environment and the tendencies at work therein which have an effect on the Question. For instance, his position in life, the influence of immediate friends, and so forth`),
+        new Placement(4, 3, Rotations.UPRIGHT, `This represents the hopes or fears of the Querent with regard to the Question`),
+        new Placement(4, 1, Rotations.UPRIGHT, `This represents what will come, the final result, the culmination which is brought about by the influences shown by the other cards that have been turned up in the divination. `),
+      ],
+    },
+  )),
 });
