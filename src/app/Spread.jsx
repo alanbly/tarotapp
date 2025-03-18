@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import Card from './Card';
+import {Facings} from './tarot';
 import {AspectRatio} from './render';
 
 import styles from './Spread.module.css';
@@ -39,16 +40,19 @@ const Spread = ({className, spread, deck, cards, hoverCard, setHoverCard, setSel
     event.stopPropagation();
   };
 
-  const facing = cards[0] ? cards[0].facing : null;
+  const facing = cards[0] && cards[0].facing;
 
   return <div ref={divRef} className={spreadCls}>
-    <style>{spread.getStyles(styles.card, size.width, size.height, 1, cardWidth, cardHeight, facing)}</style>
+    <style>{spread.getStyles(styles, size.width, size.height, 1, cardWidth, cardHeight, facing)}</style>
     {
       cards.map((card, idx) => {
         return <Card
           key={card.name}
-          className={styles.card}
+          className={styles.anchor}
+          cardClass={styles.card}
+          tooltipClass={styles.tooltip}
           hover={hoverCard && card.key == hoverCard.key}
+          placement={spread.getCardPlacement(idx, facing)}
           onClick={clickCard(card)}
           onMouseEnter={() => setHoverCard(card)}
           onMouseLeave={() => setHoverCard(null)}

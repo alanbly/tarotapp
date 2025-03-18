@@ -2,7 +2,14 @@
 
 }
 
+.anchor {
+    position: absolute;
+}
+
 .card {
     height: 30vh;
-    position: absolute;
+}
+
+.tooltip {
+
 }

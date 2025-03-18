@@ -1,6 +1,52 @@
+.anchor {
+    pointer-events: none;
+}
+
 .card {
+    height: 100%;
+    pointer-events: all;
 }
 
 .card.hover {
+    box-shadow: gold 0 0 min(1vh, 1vw);
+}
 
+.tooltip {
+    position: absolute;
+    padding: 1vh 1vw;
+    width: min(36vw, 54vh);
+    max-height: min(40vh, 24vw);
+    overflow: hidden;
+    z-index: 1;
+
+    border-radius: min(1vh, 1vw);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: min(3vh, 3vw);
+
+    /* Kinda shiny gold courtesy of Claude */
+    background: linear-gradient(-25deg, #FEF1A2, #D5BE73, #BEA55D, #E9D294, #A68E46);
+
+    font-family: var(--font-bonheur-royale);
+    font-size: large;
+    pointer-events: all;
+
+    left: min(30vw, 15vh);
+    top: min(5vh, 3vw);
+
+    &.left {
+        left: revert;
+        right: min(30vw, 15vh);
+    }
+
+    .title {
+        font-size: min(3.5vh, 3.5vw);
+        font-weight: 600;
+    }
+
+    .text {
+        font-size: min(3vh, 3vw);
+    }
 }

@@ -1,6 +1,8 @@
 'use client'
 
 import React from 'react';
+import parse from 'html-react-parser';
+
 import Card from './Card';
 import {Position, AspectRatio, Rotations, getCardSize, clearCanvas, renderDetail} from './render';
 
@@ -16,7 +18,7 @@ export const CardDetail = ({deck, card}) => {
     <div className={styles.textBlock}>
       <h1 className={styles.title}>{card.name}</h1>
       {card.interpretation.split("\n").map((text, idx) => 
-        <p key={`${card.name}-p-${idx}`} className={styles.text}>{text}</p>)
+        <p key={`${card.name}-p-${idx}`} className={styles.text}>{parse(text)}</p>)
       }
     </div>
   </div>;
