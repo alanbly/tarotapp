@@ -1,3 +1,5 @@
+import ordinal from 'ordinal';
+
 import {Position, Rotations, getCardSize} from './render';
 
 export const Genders = Object.freeze({
@@ -502,7 +504,7 @@ export class Spread {
   }
 
   isComplete(cardCount) {
-    return cardCount >= this.placements.length;
+    return cardCount >= this.placements[Facings.LEFT].length;
   }
 
   positionFromPlacement(width, height, placement, insetX, insetY) {
@@ -535,7 +537,7 @@ export class Spread {
     return this.positionFromPlacement(width, height, this.deckLocation[facing]);
   }
 
-  getStyles({anchor, card, tooltip}, width, height, offset, insetX = 0, insetY = 0, facing = Facings.LEFT, ) {
+  getStyles(/*styles*/ {anchor, card, tooltip}, width, height, offset, insetX = 0, insetY = 0, facing = Facings.LEFT, ) {
     const key = facing === Facings.RIGHT ? Facings.RIGHT : Facings.LEFT;
     const placements = this.placements[key] || [];
     return placements.map((placement, idx) => {
@@ -557,11 +559,23 @@ export class Spread {
       `
     }).join('');
   }
+
+  readTheSpread(cards) {
+    const key = cards[0].facing === Facings.RIGHT ? Facings.RIGHT : Facings.LEFT;
+    return cards.map((card, idx) => {
+      if (idx === 0) {
+        return `The Significator is ${card.name}, ${card.title}. It means: ${card.interpretation}`
+      }
+
+      const placement = this.placements[key][idx];
+      return `The ${ordinal(idx)} card is ${card.name}, ${card.title}. ${placement.interpretation} It means: ${card.interpretation}`
+    }).join("\n\n");
+  }
 }
 
 export const Spreads = Object.freeze({
   CELTIC: Object.freeze(new Spread('Celtic Divination', 
-    new Placement(1, 1, Rotations.UPRIGHT, ``), 
+    new Placement(1, 1, Rotations.UPRIGHT, `Deck`), 
     {
       [Facings.RIGHT]: [
         new Placement(1.95, 3.95, Rotations.UPRIGHT, `The Significator`),

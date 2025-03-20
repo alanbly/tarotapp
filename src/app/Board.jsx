@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CardDetail from './CardDetail';
 import Deck from './Deck';
-import Introduction from './Introduction';
+import Introduction from './introduction';
+import Interpretation from './Interpretation';
 import Spread from './Spread';
 
 import {Decks, Spreads, } from './tarot';
@@ -17,6 +18,13 @@ const Board = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [hoverCard, setHoverCard] = useState(null);
 
+  useEffect(() => {
+    const imageArray = deck.cards.forEach(card => {
+      const tempImage = new Image();
+      tempImage.src = deck.getCardImageSrc(card)
+    });
+  }, [deck]);
+
   const drawCard = () => {
     if (spread.isComplete(deck.drawn.length)) { return; }
     const newCard = deck.drawCard();
@@ -24,8 +32,10 @@ const Board = () => {
     setCards(deck.drawn.slice());
   };
 
+  const complete = spread.isComplete(deck.drawn.length)
+
   const deckStyle = {
-    cursor: spread.isComplete(deck.drawn.length) ? 'not-allowed' : 'grab',
+    cursor: complete ? 'not-allowed' : 'grab',
   };
 
   return <div className={styles.frame} onClick={() => setSelectedCard(null)}>
@@ -35,6 +45,7 @@ const Board = () => {
     </div>
     {cards.length === 0 && <Introduction className={styles.introduction} {...{deck, setCards, setSelectedCard}}/>}
     {selectedCard && <CardDetail className={styles.detail} {...{deck, card: selectedCard, setSelectedCard}}/>}
+    {complete && <Interpretation className={styles.interpretation} {...{cards, deck, spread}} />}
   </div>;
 };
 

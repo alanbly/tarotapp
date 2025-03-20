@@ -4,11 +4,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
 
-import Card from './Card';
-import Deck from './Deck';
-import SwirlingMist from './SwirlingMist';
-import {Cards, Genders, Ranks, Suits} from './tarot';
-import {AspectRatio} from './render';
+import Card from '../Card';
+import Deck from '../Deck';
+import Veil from './Veil';
+import {Action, Phase, PhasedOverlay, SwirlingMist} from '../common';
+import {Cards, Genders, Ranks, Suits, } from '../tarot';
+import {AspectRatio} from '../render';
 
 import styles from './Introduction.module.css';
 
@@ -27,93 +28,7 @@ const States = Object.freeze({
   //: Symbol(''),
 });
 
-class Action {
-  constructor(text, primary, targetState = States.VEIL, parameters = {}) {
-    this.text = text;
-    this.primary = !!primary;
-    this.targetState = targetState;
-    this.parameters = parameters;
-  }
-}
-
-class Phase {
-  constructor(state, content, actions = []) {
-    this.state = state;
-    this.content = content;
-    this.actions = actions;
-  }
-}
-
-const Actions = ({actions, state, onClickAction}) => {
-  return <div className={styles.actions}>
-    {actions.map((action, idx) => {
-      const {text, primary} = action;
-      const buttonCls = classNames(styles.action, {
-        [styles.primary]: primary,
-      });
-      return <button
-        key={`${state.name}-${idx}`}
-        className={buttonCls}
-        onClick={() => onClickAction(action)}>
-        {text}
-      </button>;
-    })}
-  </div>;
-};
-
-const TextPhase = ({text, actions, state, setState, setParameters}) => {
-  const [alpha, setAlpha] = useState(0);
-
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      setAlpha(1.0);
-    })
-  }, [text]);
-
-  const style = {
-    opacity: alpha,
-  };
-
-  const onClickAction = action => {
-    setAlpha(0);
-    setTimeout(() => {
-      setState(action.targetState);
-      setParameters(action.parameters || {});
-    }, 1000);
-  };
-
-  return <div className={styles.phase} style={style}>
-    <span className={styles.text}>{parse(text)}</span>
-    <Actions {...{actions, state, onClickAction}}/>
-  </div>;
-};
-
 const fadeDelayS = 1;
-const Veil = ({fadeIn = false, fadeOut = true, setState}) => {
-  const [alpha, setAlpha] = useState(fadeIn ? 0 : 1.0);
-
-  const clearVeil = () => {
-    setAlpha(0);
-    setTimeout(() => setState(States.INITIAL), fadeDelayS * 1000 + 10);
-  }
-
-  useEffect(() => {
-    if (fadeOut) {
-      clearVeil();
-    } else {
-      setAlpha(1.0);
-    }
-  }, [fadeOut]);
-  const style = {
-    opacity: alpha,
-    transitionDuration: `${fadeDelayS}s`,
-  };
-  return <SwirlingMist
-    className={styles.veil}
-    onClick={clearVeil}
-    {...{style}}/>;
-};
-
 const ChooseSignificator = ({deck, cards, text, selectCard}) => {
   const [alpha, setAlpha] = useState(0);
 
@@ -396,7 +311,7 @@ const CutCards = ({setState, ...params}) => {
   />
 }
 
-const PartVeil = ({partVeil}) => {
+const PartVeil = ({fadeOut}) => {
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
@@ -406,7 +321,7 @@ const PartVeil = ({partVeil}) => {
 
     setTimeout(() => {
       setAlpha(0);
-      partVeil();
+      fadeOut();
     }, 1000);
   }, []);
 
@@ -422,7 +337,7 @@ const PartVeil = ({partVeil}) => {
 };
 
 const introduction = Object.freeze([
-  Object.freeze(new Phase(States.VEIL, Veil, [])),
+  Object.freeze(new Phase(States.VEIL, Veil, [], States.INITIAL)),
   Object.freeze(new Phase(States.INITIAL, 
     `Would you pierce the veil to glimpse the mysteries beyond?`, [
     new Action('No', true, States.VEIL, {fadeIn: true, fadeOut: false}),
@@ -456,57 +371,65 @@ export const Introduction = ({
   setSelectedCard,
   initialState = States.VEIL,
 }) => {
-  const [alpha, setAlpha] = useState(1);
-  const [state, setState] = useState(initialState);
-  const [parameters, setParameters] = useState({});
   const [gender, setGender] = useState();
   const [rank, setRank] = useState(null);
   const [suit, setSuit] = useState(null);
   const [significator, setSignificator] = useState(null);
 
-  const phase = introduction[state] || introduction[States.VEIL];
-  const Component = phase.content;
-
   const partVeil = () => {
-    setAlpha(0);
-    setTimeout(() => {
-      deck.pullCard(significator);
-      setCards(deck.drawn.slice());
-    }, 1000);
+    deck.pullCard(significator);
+    setCards(deck.drawn.slice());
   }
 
-  const style = {
-    opacity: alpha,
-  };
+  const overlayCls = classNames(styles.introduction, className, {});
+  return <PhasedOverlay 
+    className={overlayCls}
+    states={States}
+    phases={introduction}
+    onComplete={partVeil}
+    onBackgroundClick={() => setSelectedCard(null)}
+    {...{
+      initialState,
+      deck,
+      gender,
+      rank,
+      significator,
+      suit,
+      setCards,
+      setGender,
+      setRank,
+      setSelectedCard,
+      setSignificator,
+      setSuit,
+    }}
+  />;
 
-  const divCls = classNames(styles.introduction, className, {});
-  return <div className={divCls} style={style}>
-    <SwirlingMist
-      className={styles.background}
-      onClick={() => setSelectedCard(null)}/>
-    {typeof phase.content === 'string' ?
-      <TextPhase text={phase.content} {...{...phase, setState, setParameters}} /> :
-      <Component {...{
-        deck,
-        gender,
-        rank,
-        significator,
-        suit,
-        partVeil,
-        setCards,
-        setGender,
-        setParameters,
-        setRank,
-        setSelectedCard,
-        setSignificator,
-        setState,
-        setState,
-        setSuit,
-        ...phase,
-        ...parameters,
-      }}/>}
+  // return <div className={overlayCls} style={style}>
+  //   <SwirlingMist
+  //     className={styles.background}
+  //     onClick={() => setSelectedCard(null)}/>
+  //   {typeof phase.content === 'string' ?
+  //     <TextPhase text={phase.content} {...{...phase, setState, setParameters}} /> :
+  //     <Component {...{
+  //       deck,
+  //       gender,
+  //       rank,
+  //       significator,
+  //       suit,
+  //       partVeil,
+  //       setCards,
+  //       setGender,
+  //       setParameters,
+  //       setRank,
+  //       setSelectedCard,
+  //       setSignificator,
+  //       setState,
+  //       setSuit,
+  //       ...phase,
+  //       ...parameters,
+  //     }}/>}
 
-  </div>;
+  // </div>;
 };
 
 export default Introduction;

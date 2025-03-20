@@ -1,0 +1,63 @@
+.overlay {
+    font-family: var(--font-bonheur-royale);
+    font-size: 8vh;
+
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+}
+
+.background {
+    width: 100vw;
+    height: 100vh;
+
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+}
+
+.phase {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 80vh;
+    padding: 15vh 15vw;
+
+    opacity: 0%;
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: column;
+    gap: 5vh 5vw;
+}
+
+.text {
+    text-align: center;
+}
+
+.actions {
+    width: 100vw;
+    height: 10vh;
+
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    gap: 10vh 10vw;
+}
+
+.action {
+    cursor: grab;
+    border: none;
+    background: none;
+    font-family: var(--font-bonheur-royale);
+    font-size: xxx-large;
+}
+
+.action.primary {
+
+}

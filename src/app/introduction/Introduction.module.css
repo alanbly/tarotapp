@@ -1,0 +1,46 @@
+.introduction {
+    font-family: var(--font-bonheur-royale);
+    font-size: 8vh;
+}
+
+.veil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    opacity: 100%;
+    background: #aaaaaa;
+}
+
+.significator {
+    height: 100vh;
+
+    .card {
+        cursor: grab;
+    }
+}
+
+.text {
+    text-align: center;
+}
+
+.text.single {
+    padding-bottom: 10vh;
+}
+
+.cards {
+    display: flex;
+    column-gap: 5vw;
+}
+
+.card {
+    cursor: grab;
+    height: 30vh;
+}
+
+.deck {
+    position: absolute;
+    height: 30vh;
+}

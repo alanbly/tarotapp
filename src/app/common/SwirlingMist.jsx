@@ -44,33 +44,6 @@ class Circle {
   }
 }
 
-const controller = {
-  running: false,
-  canvas: null,
-  circles: [],
-};
-const update = () => {
-  const {running, canvas, circles} = controller;
-  if (!running) {
-    return;
-  }
-  const context = canvas.getContext("2d");
-
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  circles.forEach(circle => circle.draw(context, canvas.width, canvas.height));
-
-  requestAnimationFrame(update);
-};
-const run = (canvas, circles) => {
-  controller.running = true;
-  controller.canvas = canvas;
-  controller.circles = circles;
-  update();
-};
-const cancel = () => {
-  controller.running = false;
-};
-
 const createCircles = (width, height, count) => {
   const circles = [];
 
@@ -105,6 +78,33 @@ export const SwirlingMist = ({className, style, onClick}) => {
   const [count, setCount] = useState(1000);
 
   useEffect(() => {
+    const controller = {
+      running: false,
+      canvas: null,
+      circles: [],
+    };
+    const update = () => {
+      const {running, canvas, circles} = controller;
+      if (!running) {
+        return;
+      }
+      const context = canvas.getContext("2d");
+
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      circles.forEach(circle => circle.draw(context, canvas.width, canvas.height));
+
+      requestAnimationFrame(update);
+    };
+    const run = (canvas, circles) => {
+      controller.running = true;
+      controller.canvas = canvas;
+      controller.circles = circles;
+      update();
+    };
+    const cancel = () => {
+      controller.running = false;
+    };
+
     const canvas = canvasRef.current;
 
     if (!canvas) {
