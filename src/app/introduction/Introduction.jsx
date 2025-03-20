@@ -13,7 +13,7 @@ import {AspectRatio} from '../render';
 
 import styles from './Introduction.module.css';
 
-const States = Object.freeze({
+export const States = Object.freeze({
   VEIL: Symbol('VEIL'),
   INITIAL: Symbol('INITIAL'),
   EXPLAIN_SIGNIFICATOR: Symbol('EXPLAIN_SIGNIFICATOR'),
@@ -29,7 +29,7 @@ const States = Object.freeze({
 });
 
 const fadeDelayS = 1;
-const ChooseSignificator = ({deck, cards, text, selectCard}) => {
+const ChooseSignificator = ({className, deck, cards, text, selectCard}) => {
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const ChooseSignificator = ({deck, cards, text, selectCard}) => {
     setTimeout(() => selectCard(card), fadeDelayS * 1000 + 10);
   }
 
-  const divCls = classNames(styles.phase, styles.significator)
+  const divCls = classNames(styles.significator, className);
 
   const style = {
     opacity: alpha,
@@ -157,7 +157,7 @@ const deckPathStyle = (width, height, fraction) => {
   };
 };
 
-const CardFan = ({text, action, deck, setState}) => {
+const CardFan = ({className, text, action, deck, setState}) => {
   const divRef = useRef(null);
   const [alpha, setAlpha] = useState(0);
   const [shown, setShown] = useState(0);
@@ -204,7 +204,7 @@ const CardFan = ({text, action, deck, setState}) => {
 
   const deckStyle = deckPathStyle(size.width, size.height, position);
 
-  const divCls = classNames(styles.phase, styles.cut);
+  const divCls = classNames(styles.cut, className);
 
   return <div ref={divRef} className={divCls} style={style}>
     <span className={styles.text}>{text}</span>
@@ -311,7 +311,7 @@ const CutCards = ({setState, ...params}) => {
   />
 }
 
-const PartVeil = ({fadeOut}) => {
+const PartVeil = ({className, fadeOut}) => {
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
@@ -331,7 +331,8 @@ const PartVeil = ({fadeOut}) => {
 
   const spanCls = classNames(styles.text, styles.single);
 
-  return <div className={styles.phase} style={style}>
+
+  return <div className={className} style={style}>
     <span className={spanCls}>The Veil Parts...</span>
   </div>;
 };
@@ -367,14 +368,18 @@ const introduction = Object.freeze([
 export const Introduction = ({
   className,
   deck,
+  savedSignificator,
   setCards,
   setSelectedCard,
-  initialState = States.VEIL,
 }) => {
   const [gender, setGender] = useState();
   const [rank, setRank] = useState(null);
   const [suit, setSuit] = useState(null);
-  const [significator, setSignificator] = useState(null);
+  const [significator, setSignificator] = useState(savedSignificator);
+
+  const initialState = significator ? 
+    States.CHOOSE_SIGNIFICATOR_REVEAL : 
+    States.VEIL;
 
   const partVeil = () => {
     deck.pullCard(significator);
@@ -403,33 +408,6 @@ export const Introduction = ({
       setSuit,
     }}
   />;
-
-  // return <div className={overlayCls} style={style}>
-  //   <SwirlingMist
-  //     className={styles.background}
-  //     onClick={() => setSelectedCard(null)}/>
-  //   {typeof phase.content === 'string' ?
-  //     <TextPhase text={phase.content} {...{...phase, setState, setParameters}} /> :
-  //     <Component {...{
-  //       deck,
-  //       gender,
-  //       rank,
-  //       significator,
-  //       suit,
-  //       partVeil,
-  //       setCards,
-  //       setGender,
-  //       setParameters,
-  //       setRank,
-  //       setSelectedCard,
-  //       setSignificator,
-  //       setState,
-  //       setSuit,
-  //       ...phase,
-  //       ...parameters,
-  //     }}/>}
-
-  // </div>;
 };
 
 export default Introduction;

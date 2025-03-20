@@ -112,13 +112,19 @@ export const PhasedOverlay = ({
       onClick={onClickBackground}/>
     {typeof phase.content === 'string' ?
       <TextPhase text={phase.content} {...{...phase, setState, setParameters}} /> :
-      <Component nextState={() => setState(phase.next || initialState)} {...{
-        fadeOut,
-        setState,
-        ...passThrough,
-        ...phase,
-        ...parameters,
-      }}/>}
+      <Component
+        nextState={() => setState(phase.next || initialState)} 
+        className={styles.phase}
+        {...{
+          
+          fadeOut,
+          setState,
+          ...passThrough,
+          ...phase,
+          ...parameters,
+        }}
+      />
+    }
 
   </div>;
 };

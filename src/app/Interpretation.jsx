@@ -19,7 +19,7 @@ const ActionOverlay = ({reset}) => {
 };
 
 const interpretation = Object.freeze([
-  Object.freeze(new Phase(States.OVERLAY, ActionOverlay, [
+  Object.freeze(new Phase(States.OVERLAY, `ActionOverlay`, [
     new Action('Explain the Cards', true, States.VEIL, {fadeIn: true, fadeOut: false}),
     new Action('Read the Spread', false, States.EXPLAIN_SIGNIFICATOR),
   ])),

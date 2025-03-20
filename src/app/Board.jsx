@@ -32,6 +32,13 @@ const Board = () => {
     setCards(deck.drawn.slice());
   };
 
+  const reset = () => {
+    setCards([]);
+    deck.reset();
+    setSelectedCard(null);
+    setHoverCard(null);
+  };
+
   const complete = spread.isComplete(deck.drawn.length)
 
   const deckStyle = {
@@ -40,12 +47,37 @@ const Board = () => {
 
   return <div className={styles.frame} onClick={() => setSelectedCard(null)}>
     <div className={styles.board}>
-      {cards.length > 0 && <Deck className={styles.deck} {...{deck}} onClick={drawCard} style={deckStyle}/>}
-      <Spread className={styles.spread} {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard}} />
+      {cards.length > 0 && 
+        <Deck 
+          className={styles.deck}
+          {...{deck, reset}}
+          onClick={drawCard}
+          style={deckStyle}
+        />
+      }
+      <Spread 
+        className={styles.spread} 
+        {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard, reset}} 
+      />
     </div>
-    {cards.length === 0 && <Introduction className={styles.introduction} {...{deck, setCards, setSelectedCard}}/>}
-    {selectedCard && <CardDetail className={styles.detail} {...{deck, card: selectedCard, setSelectedCard}}/>}
-    {complete && <Interpretation className={styles.interpretation} {...{cards, deck, spread}} />}
+    {cards.length === 0 && 
+      <Introduction 
+        className={styles.introduction}
+        {...{deck, setCards, setSelectedCard, reset}}
+      />
+    }
+    {selectedCard && 
+      <CardDetail 
+        className={styles.detail}
+        {...{deck, card: selectedCard, setSelectedCard, reset}}
+      />
+    }
+    {complete && 
+      <Interpretation 
+        className={styles.interpretation}
+        {...{cards, deck, spread, reset}}
+      />
+    }
   </div>;
 };
 
