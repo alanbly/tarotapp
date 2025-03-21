@@ -9,10 +9,11 @@ import SwirlingMist from './SwirlingMist';
 import styles from './PhasedOverlay.module.css';
 
 export class Action {
-  constructor(text, primary, targetState, parameters = {}) {
+  constructor(text, primary, onClick, parameters = {}) {
     this.text = text;
     this.primary = !!primary;
-    this.targetState = targetState;
+    this.onClick = typeof onClick === 'function' ? onClick : null;
+    this.targetState = typeof onClick !== 'function' ? onClick : null;
     this.parameters = parameters;
   }
 }
@@ -59,7 +60,11 @@ export const TextPhase = ({text, actions, state, setState, setParameters}) => {
   const onClickAction = action => {
     setAlpha(0);
     setTimeout(() => {
-      setState(action.targetState);
+      if (action.onClick) {
+        action.onClick();
+      } else {
+        setState(action.targetState);
+      }
       setParameters(action.parameters || {});
     }, 1000);
   };
@@ -102,6 +107,7 @@ export const PhasedOverlay = ({
 
   const backgroundStyle = {
     opacity: backgroundOpacity,
+    pointerEvents: backgroundOpacity > 0 ? 'visible' : 'none',
   };
 
   const divCls = classNames(styles.overlay, className, {});

@@ -14,17 +14,37 @@ const States = Object.freeze({
   READING: Symbol('READING'),
 });
 
-const ActionOverlay = ({reset}) => {
-  return <div className={styles.actions}/>
+const Blank = ({className, setActions, setState, setBgAlpha}) => {
+  const transition = state => {
+    setBgAlpha(state === States.OVERLAY ? 0 : 1);
+    setState(state);
+  };
+
+  useEffect(() => {
+    setBgAlpha(0);
+
+    const actions = [
+      new Action('Spread Details', false, () => transition(States.EXPLAIN)),
+      new Action('Read the Cards', false, () => transition(States.READING)),
+    ];
+
+    setActions(actions);
+
+    return () => setActions([]);
+  }, []);
+
+  const divCls = classNames(className, styles.blank);
+  return <div className={divCls}/>
 };
 
 const interpretation = Object.freeze([
-  Object.freeze(new Phase(States.OVERLAY, `ActionOverlay`, [
-    new Action('Explain the Cards', true, States.VEIL, {fadeIn: true, fadeOut: false}),
-    new Action('Read the Spread', false, States.EXPLAIN_SIGNIFICATOR),
+  Object.freeze(new Phase(States.OVERLAY, Blank, [])),
+  Object.freeze(new Phase(States.EXPLAIN, `EXPLAIN.`, [
+    new Action('Return', true, States.OVERLAY),
+  ], States.READING)),
+  Object.freeze(new Phase(States.READING, `READING.`, [
+    new Action('Return', true, States.OVERLAY),
   ])),
-  Object.freeze(new Phase(States.EXPLAIN, `EXPLAIN.`, [], States.READING)),
-  Object.freeze(new Phase(States.READING, `READING.`, [])),
 ].reduce((obj, phase) => {
   obj[phase.state] = phase;
   return obj;
@@ -32,32 +52,39 @@ const interpretation = Object.freeze([
 
 export const Interpretation = ({
   className,
+  cards,
   deck,
-  setCards,
-  setSelectedCard,
+  spread,
+  setActions,
   reset,
   initialState = States.OVERLAY,
 }) => {
   const [bgAlpha, setBgAlpha] = useState(0);
 
   const onComplete = () => {
-
+    setBgAlpha(0);
+    reset();
   }
 
+  const isComplete = spread.isComplete(deck.drawn.length);
+
   const overlayCls = classNames(styles.interpretation, className, {});
-  return <PhasedOverlay 
-    className={overlayCls}
-    states={States}
-    phases={interpretation}
-    backgroundOpacity={bgAlpha}
-    onBackgroundClick={() => {}}
-    {...{
-      initialState,
-      onComplete,
-      setBgAlpha,
-      reset,
-    }}
-  />;
+  return <div className={styles.frame}>
+    {isComplete && <PhasedOverlay 
+      className={overlayCls}
+      states={States}
+      phases={interpretation}
+      backgroundOpacity={bgAlpha}
+      onBackgroundClick={() => {}}
+      {...{
+        initialState,
+        onComplete,
+        setActions,
+        setBgAlpha,
+        reset,
+      }}
+    />}
+  </div>
 };
 
 export default Interpretation;

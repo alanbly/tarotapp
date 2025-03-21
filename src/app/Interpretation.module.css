@@ -1,7 +1,13 @@
-.introduction {
+.interpretation {
     font-family: var(--font-bonheur-royale);
     font-size: 8vh;
 }
 
+.frame {}
+
 .actions {
+}
+
+.blank {
+    pointer-events: none;
 }
