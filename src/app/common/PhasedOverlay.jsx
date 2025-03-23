@@ -150,6 +150,7 @@ export const PhasedOverlay = ({
           
           fadeOut,
           setState,
+          setParameters,
           ...passThrough,
           ...phase,
           ...parameters,

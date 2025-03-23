@@ -12,20 +12,6 @@ import {Cards, Decks, Spreads, } from './tarot';
 
 import styles from './Board.module.css';
 
-const devSpread = [
-  Cards.KING_OF_SWORDS,
-  Cards.FIVE_OF_SWORDS,
-  Cards.TEN_OF_WANDS,
-  Cards.QUEEN_OF_PENTACLES,
-  Cards.QUEEN_OF_CUPS,
-  Cards.NINE_OF_PENTACLES,
-  Cards.DEVIL,
-  Cards.NINE_OF_SWORDS,
-  Cards.TWO_OF_SWORDS,
-  Cards.SIX_OF_SWORDS,
-  Cards.TWO_OF_CUPS
-];
-
 const Actions = ({actions}) => {
   return <div className={styles.actions}>
     {actions.map((action, idx) => {
@@ -45,13 +31,11 @@ const Actions = ({actions}) => {
 
 const Board = () => {
   const [actions, setActions] = useState([]);
-  const [cards, setCards] = useState(devSpread);//[]);
+  const [cards, setCards] = useState([]);
   const [deck, setDeck] = useState(Decks.RIDER_WAITE_TAROT.copy());
   const [spread, setSpread] = useState(Spreads.CELTIC);
   const [selectedCard, setSelectedCard] = useState(null);
   const [hoverCard, setHoverCard] = useState(null);
-
-  devSpread.forEach(card => deck.pullCard(card)); // 
 
   useEffect(() => {
     const imageArray = deck.cards.forEach(card => {
