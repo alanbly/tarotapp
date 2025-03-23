@@ -95,7 +95,11 @@ export const MarkdownPhase = ({markdown,  className, ...params}) => {
   const phaseCls = classNames(styles.markdown, className);
   return <FadingPhase className={phaseCls} {...params}>
     <div className={styles.scroller}>
-      <Markdown>{markdown}</Markdown>
+      <Markdown components={{
+        ul: params => <ul className={styles.list} {...params} />,
+        ol: params => <ol className={styles.list} {...params} />,
+        p: params => <p className={styles.paragraph} {...params} />,
+      }}>{markdown}</Markdown>
     </div>
   </FadingPhase>;
 };

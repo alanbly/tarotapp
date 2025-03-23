@@ -60,18 +60,18 @@
     scrollbar-width: thick;
     scrollbar-color: #e5a21a rgba(255, 255, 255, 0.35);
 
-    ol, ul {
-        ol, ul {
+    .list {
+        .list {
             padding-inline-start: 2vw;
         }
     }
 
-    >p:first-child {
+    >.paragraph:first-child {
         margin-bottom: 2vh;
         font-size: 4vh;
     }
 
-    >p:last-child {
+    >.paragraph:last-child {
         margin-top: 2vh;
         font-size: 4vh;
     }
