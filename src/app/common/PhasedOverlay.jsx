@@ -3,6 +3,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
+import Markdown from 'react-markdown';
 
 import SwirlingMist from './SwirlingMist';
 
@@ -27,7 +28,7 @@ export class Phase {
   }
 }
 
-export const Actions = ({actions, state, onClickAction}) => {
+export const Actions = ({actions = [], state, onClickAction}) => {
   return <div className={styles.actions}>
     {actions.map((action, idx) => {
       const {text, primary} = action;
@@ -44,14 +45,21 @@ export const Actions = ({actions, state, onClickAction}) => {
   </div>;
 };
 
-export const TextPhase = ({text, actions, state, setState, setParameters}) => {
+export const FadingPhase = ({
+  className,
+  children,
+  actions,
+  state,
+  setState,
+  setParameters
+}) => {
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
     requestAnimationFrame(() => {
       setAlpha(1.0);
     })
-  }, [text]);
+  }, [children]);
 
   const style = {
     opacity: alpha,
@@ -69,10 +77,27 @@ export const TextPhase = ({text, actions, state, setState, setParameters}) => {
     }, 1000);
   };
 
-  return <div className={styles.phase} style={style}>
-    <span className={styles.text}>{parse(text)}</span>
+  const divCls = classNames(styles.phase, className);
+  return <div className={divCls} style={style}>
+    {children}
     <Actions {...{actions, state, onClickAction}}/>
   </div>;
+};
+
+export const TextPhase = ({text, className, ...params}) => {
+  const phaseCls = classNames(styles.text, className);
+  return <FadingPhase {...params}>
+    <span className={phaseCls}>{parse(text)}</span>
+  </FadingPhase>;
+};
+
+export const MarkdownPhase = ({markdown,  className, ...params}) => {
+  const phaseCls = classNames(styles.markdown, className);
+  return <FadingPhase className={phaseCls} {...params}>
+    <div className={styles.scroller}>
+      <Markdown>{markdown}</Markdown>
+    </div>
+  </FadingPhase>;
 };
 
 export const PhasedOverlay = ({

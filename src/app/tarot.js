@@ -9,6 +9,8 @@ export const Genders = Object.freeze({
   PANGENDER: Symbol('PANGENDER'),
 });
 
+const indexByName = values => Object.fromEntries(values.map(value => [value.name, value]));
+
 export class Suit {
   constructor(name, interpretation) {
     this.name = name;
@@ -381,6 +383,7 @@ export const Cards = Object.freeze({
     "A Winged Kingly Figure seated in a chariot drawn by a bull. He bears as a crest the symbol of the head of the winged bull. Beneath the chariot is land, with many flowers. In the one hand he bears an orb of gold held downwards, and in the other a sceptre surmounted by an orb and cross.",
     "Increase of matter. Increases good or evil, solidifies; practically applies things. Steady; reliable.\nIf ill dignified he is selfish, animal and material: stupid. In either case slow to anger, but furious if roused.\nRules from 20 Degree Aries to 20 Degree Taurus.\nAir of Earth\nPrince and Emperor of the Gnomes.")),
 });
+export const cardsByName = indexByName(Object.values(Cards));
 
 export class Deck extends EventTarget {
   constructor(name, slug, cards = []) {
@@ -453,6 +456,7 @@ export const Decks = Object.freeze({
   RIDER_WAITE_TAROT: Object.freeze(new Deck('Rider Waite', 'RiderWaite', Object.values(Cards))),
   MIDJOUNEY_TAROT: Object.freeze(new Deck('Midjourney', 'Midjourney', Object.values(Cards))),
 });
+export const decksByName = indexByName(Object.values(Decks));
 
 const normalizePlacements = (placements) => {
   const {minX, maxX, minY, maxY} = placements.reduce(
@@ -504,7 +508,8 @@ export class Spread {
   }
 
   isComplete(cardCount) {
-    return cardCount >= this.placements[Facings.LEFT].length;
+    const count = cardCount.length || cardCount;
+    return count >= this.placements[Facings.LEFT].length;
   }
 
   positionFromPlacement(width, height, placement, insetX, insetY) {
@@ -606,3 +611,4 @@ export const Spreads = Object.freeze({
     },
   )),
 });
+export const spreadsByName = indexByName(Object.values(Spreads));

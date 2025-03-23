@@ -25,6 +25,7 @@
     width: 100vw;
     height: 80vh;
     padding: 15vh 15vw;
+    font-size: 8vh;
 
     opacity: 0%;
     transition-property: opacity;
@@ -42,9 +43,44 @@
     text-align: center;
 }
 
+.markdown {
+    font-size: 3vh;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 5vh 5vw;
+    text-align: justify;
+}
+
+.scroller {
+    width: min(90vw, 120vh);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 3vh 3vw;
+
+    scrollbar-width: thick;
+    scrollbar-color: #e5a21a rgba(255, 255, 255, 0.35);
+
+    ol, ul {
+        ol, ul {
+            padding-inline-start: 2vw;
+        }
+    }
+
+    >p:first-child {
+        margin-bottom: 2vh;
+        font-size: 4vh;
+    }
+
+    >p:last-child {
+        margin-top: 2vh;
+        font-size: 4vh;
+    }
+}
+
 .actions {
-    width: 100vw;
+    width: min(90vw, 120vh);
     height: 10vh;
+    font-size: 8vh;
 
     display: flex;
     align-items: start;
@@ -57,7 +93,7 @@
     border: none;
     background: none;
     font-family: var(--font-bonheur-royale);
-    font-size: xxx-large;
+    font-size: 5vh;
 
     &:hover {
         text-shadow: gold 0 0 min(1vh, 1vw);

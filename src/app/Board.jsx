@@ -51,7 +51,7 @@ const Board = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [hoverCard, setHoverCard] = useState(null);
 
-  devSpread.forEach(card => deck.drawCard(card)); // 
+  devSpread.forEach(card => deck.pullCard(card)); // 
 
   useEffect(() => {
     const imageArray = deck.cards.forEach(card => {

@@ -60,7 +60,7 @@
     flex-grow: 1;
     align-items: start;
     justify-content: center;
-    gap: 10vh 10vw;
+    gap: 5vh 5vw;
 }
 
 .action {
@@ -68,7 +68,7 @@
     border: none;
     background: none;
     font-family: var(--font-bonheur-royale);
-    font-size: xxx-large;
+    font-size: 5vh;
 
     &:hover {
         text-shadow: gold 0 0 min(1vh, 1vw);

@@ -10,4 +10,12 @@
 
 .blank {
     pointer-events: none;
+
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+}
+
+.markdown {
+    font-size: 3vh;
 }
