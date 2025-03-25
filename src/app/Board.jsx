@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import CardDetail from './CardDetail';
@@ -9,10 +9,14 @@ import Introduction from './introduction';
 import Interpretation from './Interpretation';
 import Spread from './Spread';
 import {Cards, Decks, Spreads, } from './tarot';
+import {BoardContext} from './contexts';
 
 import styles from './Board.module.css';
 
-const Actions = ({actions}) => {
+const Actions = ({}) => {
+  const {
+    actions,
+  } = useContext(BoardContext);
   return <div className={styles.actions}>
     {actions.map((action, idx) => {
       const {text, primary} = action;
@@ -65,39 +69,50 @@ const Board = () => {
   };
 
   return <div className={styles.frame} onClick={() => setSelectedCard(null)}>
-    <div className={styles.board}>
-      <div className={styles.left}>
-        {cards.length > 0 && 
-          <Deck 
-            className={styles.deck}
-            {...{deck, reset}}
-            onClick={drawCard}
-            style={deckStyle}
-          />
-        }
-        {actions.length > 0 && <Actions {...{actions}}/>}
+    <BoardContext value={{
+      cards,
+      setCards,
+      deck,
+      setDeck,
+      spread,
+      setSpread,
+      actions,
+      setActions,
+      selectedCard,
+      setSelectedCard,
+      hoverCard,
+      setHoverCard,
+      reset,
+    }}>
+      <div className={styles.board}>
+        <div className={styles.left}>
+          {cards.length > 0 && 
+            <Deck 
+              className={styles.deck}
+              onClick={drawCard}
+              style={deckStyle}
+            />
+          }
+          {actions.length > 0 && <Actions/>}
+        </div>
+        <Spread 
+          className={styles.spread}
+        />
       </div>
-      <Spread 
-        className={styles.spread} 
-        {...{spread, deck, cards, hoverCard, setHoverCard, setSelectedCard, reset}} 
+      <Interpretation 
+        className={styles.interpretation}
       />
-    </div>
-    <Interpretation 
-      className={styles.interpretation}
-      {...{cards, deck, spread, reset, setActions}}
-    />
-    {cards.length === 0 && 
-      <Introduction 
-        className={styles.introduction}
-        {...{deck, setCards, setSelectedCard, reset}}
-      />
-    }
-    {selectedCard && 
-      <CardDetail 
-        className={styles.detail}
-        {...{deck, card: selectedCard, setSelectedCard, reset}}
-      />
-    }
+      {cards.length === 0 && 
+        <Introduction 
+          className={styles.introduction}
+        />
+      }
+      {selectedCard && 
+        <CardDetail 
+          className={styles.detail}
+        />
+      }
+    </BoardContext>
   </div>;
 };
 

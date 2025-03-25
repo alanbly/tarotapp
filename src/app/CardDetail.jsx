@@ -1,14 +1,25 @@
 'use client'
 
-import React from 'react';
+import React, {useContext} from 'react';
 import parse from 'html-react-parser';
 
 import Card from './Card';
-import {Position, AspectRatio, Rotations, getCardSize, clearCanvas, renderDetail} from './render';
+import {BoardContext} from './contexts';
+import {
+  Position,
+  AspectRatio,
+  Rotations,
+  getCardSize,
+  clearCanvas,
+  renderDetail,
+} from './render';
 
 import styles from './CardDetail.module.css';
 
-export const CardDetail = ({deck, card}) => {
+export const CardDetail = ({card}) => {
+  const {
+    deck,
+  } = useContext(BoardContext);
 
   return <div className={styles.cardDetail} onClick={event => event.stopPropagation()}>
     <Card

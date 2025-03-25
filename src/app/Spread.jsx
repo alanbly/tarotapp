@@ -1,12 +1,21 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import Card from './Card';
+import {BoardContext} from './contexts';
 import {Facings} from './tarot';
 import {AspectRatio} from './render';
 
 import styles from './Spread.module.css';
 
-const Spread = ({className, spread, deck, cards, hoverCard, setHoverCard, setSelectedCard}) => {
+const Spread = ({className, }) => {
+  const {
+    spread,
+    deck,
+    cards,
+    hoverCard,
+    setHoverCard,
+    setSelectedCard
+  } = useContext(BoardContext);
   const divRef = useRef(null);
   const spreadCls = classNames(styles.spread, className, {});
 

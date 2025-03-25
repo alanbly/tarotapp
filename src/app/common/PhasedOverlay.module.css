@@ -66,12 +66,13 @@
         }
     }
 
-    >.paragraph:first-child {
-        margin-bottom: 2vh;
-        font-size: 4vh;
+    .item {
+        margin-bottom: 1vh;
+        margin-top: 1vh;
     }
 
-    >.paragraph:last-child {
+    >.paragraph {
+        margin-bottom: 2vh;
         margin-top: 2vh;
         font-size: 4vh;
     }

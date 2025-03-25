@@ -98,6 +98,7 @@ export const MarkdownPhase = ({markdown,  className, ...params}) => {
       <Markdown components={{
         ul: params => <ul className={styles.list} {...params} />,
         ol: params => <ol className={styles.list} {...params} />,
+        li: params => <li className={styles.item} {...params} />,
         p: params => <p className={styles.paragraph} {...params} />,
       }}>{markdown}</Markdown>
     </div>

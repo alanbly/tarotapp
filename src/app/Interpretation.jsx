@@ -1,11 +1,12 @@
 'use client'
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
 import Markdown from 'react-markdown';
 
 import {Action, MarkdownPhase, Phase, PhasedOverlay, SwirlingMist} from './common';
+import {BoardContext} from './contexts';
 
 import styles from './Interpretation.module.css';
 
@@ -17,7 +18,12 @@ const States = Object.freeze({
   READING: Symbol('READING'),
 });
 
-const Blank = ({className, cards, spread, setBgAlpha, setState}) => {
+const Blank = ({className, setBgAlpha, setState}) => {
+  const {
+    cards,
+    spread,
+  } = useContext(BoardContext);
+
   useEffect(() => {
     setBgAlpha(0);
     if (spread.isComplete(cards)) {
@@ -30,7 +36,19 @@ const Blank = ({className, cards, spread, setBgAlpha, setState}) => {
   return <div className={divCls}/>
 };
 
-const ReadingLoader = ({className, cards, deck, spread, setBgAlpha, setState, setExplain, setAdvise}) => {
+const ReadingLoader = ({
+  className,
+  setBgAlpha,
+  setState,
+  setExplain,
+  setAdvise
+}) => {
+  const {
+    cards,
+    deck,
+    spread,
+  } = useContext(BoardContext);
+
   useEffect(() => {
     setBgAlpha(0);
     if (spread.isComplete(cards)) {
@@ -65,10 +83,12 @@ const ActionsOverlay = ({
   className,
   explain,
   advise,
-  setActions,
   setState,
   setBgAlpha
 }) => {
+  const {
+    setActions,
+  } = useContext(BoardContext);
   const [alpha, setAlpha] = useState(0);
 
   const transition = state => {
@@ -134,13 +154,16 @@ const interpretation = Object.freeze([
 
 export const Interpretation = ({
   className,
-  cards,
-  deck,
-  spread,
-  setActions,
-  reset,
   initialState = States.HIDDEN,
 }) => {
+  const {
+    cards,
+    deck,
+    spread,
+    setActions,
+    reset,
+  } = useContext(BoardContext);
+
   const [bgAlpha, setBgAlpha] = useState(0);
   const [explain, setExplain] = useState(null);
   const [advise, setAdvise] = useState(null);
@@ -161,18 +184,14 @@ export const Interpretation = ({
       backgroundOpacity={bgAlpha}
       onBackgroundClick={() => {}}
       {...{
-        cards,
-        deck,
         advise,
         explain,
         spread,
         initialState,
         onComplete,
-        setActions,
         setAdvise,
         setBgAlpha,
         setExplain,
-        reset,
       }}
     />}
   </div>

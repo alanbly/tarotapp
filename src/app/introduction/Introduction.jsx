@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
 
@@ -8,6 +8,7 @@ import Card from '../Card';
 import Deck from '../Deck';
 import Veil from './Veil';
 import {Action, Phase, PhasedOverlay, SwirlingMist} from '../common';
+import {BoardContext} from '../contexts';
 import {Cards, Genders, Ranks, Suits, } from '../tarot';
 import {AspectRatio} from '../render';
 
@@ -29,7 +30,10 @@ export const States = Object.freeze({
 });
 
 const fadeDelayS = 1;
-const ChooseSignificator = ({className, deck, cards, text, selectCard}) => {
+const ChooseSignificator = ({className, cards, text, selectCard}) => {
+  const {
+    deck,
+  } = useContext(BoardContext);
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
@@ -157,7 +161,10 @@ const deckPathStyle = (width, height, fraction) => {
   };
 };
 
-const CardFan = ({className, text, action, deck, setState}) => {
+const CardFan = ({className, text, action, setState}) => {
+  const {
+    deck,
+  } = useContext(BoardContext);
   const divRef = useRef(null);
   const [alpha, setAlpha] = useState(0);
   const [shown, setShown] = useState(0);
@@ -299,8 +306,12 @@ const ChooseSignificatorReveal = ({
 };
 
 const CutCards = ({setState, ...params}) => {
+  const {
+    deck,
+  } = useContext(BoardContext);
+
   const cutCards = idx => {
-    params.deck.cut(idx);
+    deck.cut(idx);
     setState(States.PART);
   };
 
@@ -367,11 +378,13 @@ const introduction = Object.freeze([
 
 export const Introduction = ({
   className,
-  deck,
   savedSignificator,
-  setCards,
-  setSelectedCard,
 }) => {
+  const {
+    deck,
+    setCards,
+    setSelectedCard
+  } = useContext(BoardContext);
   const [gender, setGender] = useState();
   const [rank, setRank] = useState(null);
   const [suit, setSuit] = useState(null);
@@ -395,15 +408,12 @@ export const Introduction = ({
     onBackgroundClick={() => setSelectedCard(null)}
     {...{
       initialState,
-      deck,
       gender,
       rank,
       significator,
       suit,
-      setCards,
       setGender,
       setRank,
-      setSelectedCard,
       setSignificator,
       setSuit,
     }}

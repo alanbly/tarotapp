@@ -1,14 +1,15 @@
 'use client'
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
+
+import {BoardContext} from './contexts';
 
 import styles from './Card.module.css';
 
 const Tooltip = ({
   className,
-  deck,
   card,
   placement,
   setTooltipSize,
@@ -16,6 +17,9 @@ const Tooltip = ({
   onMouseEnter,
   onMouseLeave,
 }) => {
+  const {
+    deck,
+  } = useContext(BoardContext);
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -54,7 +58,6 @@ const Card = ({
   className,
   cardClass,
   tooltipClass,
-  deck,
   card,
   placement,
   hover,
@@ -62,6 +65,9 @@ const Card = ({
   onMouseEnter,
   onMouseLeave,
 }) => {
+  const {
+    deck,
+  } = useContext(BoardContext);
   const divRef = useRef(null);
   const [right, setRight] = useState(false);
   const [tooltipSize, setTooltipSize] = useState({ width: 0 });
