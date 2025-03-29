@@ -1,3 +1,5 @@
+import { UserProvider } from '@auth0/nextjs-auth0/client';
+
 import { Geist, Geist_Mono, Bonheur_Royale } from "next/font/google";
 import "./globals.css";
 
@@ -18,16 +20,18 @@ const bonheurRoyale = Bonheur_Royale({
 });
 
 export const metadata = {
-  title: "Read the Tarot",
+  title: "The Seer",
   description: "Peer past the veil and glimpse beyond",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <UserProvider>
       <body className={`${geistSans.variable} ${geistMono.variable} ${bonheurRoyale.variable}`}>
         {children}
       </body>
+      </UserProvider>
     </html>
   );
 }

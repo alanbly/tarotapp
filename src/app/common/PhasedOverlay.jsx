@@ -1,10 +1,11 @@
 'use client'
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
 import Markdown from 'react-markdown';
 
+import {PhaseContext} from '../contexts';
 import SwirlingMist from './SwirlingMist';
 
 import styles from './PhasedOverlay.module.css';
@@ -28,7 +29,9 @@ export class Phase {
   }
 }
 
-export const Actions = ({actions = [], state, onClickAction}) => {
+export const Actions = ({onClickAction}) => {
+  const {actions, state} = useContext(PhaseContext);
+
   return <div className={styles.actions}>
     {actions.map((action, idx) => {
       const {text, primary} = action;
@@ -48,11 +51,9 @@ export const Actions = ({actions = [], state, onClickAction}) => {
 export const FadingPhase = ({
   className,
   children,
-  actions,
-  state,
-  setState,
-  setParameters
 }) => {
+  const {actions, state, setState, setParameters} = useContext(PhaseContext);
+
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
@@ -146,22 +147,24 @@ export const PhasedOverlay = ({
       className={styles.background}
       style={backgroundStyle}
       onClick={onClickBackground}/>
-    {typeof phase.content === 'string' ?
-      <TextPhase text={phase.content} {...{...phase, setState, setParameters}} /> :
-      <Component
-        nextState={() => setState(phase.next || initialState)} 
-        className={styles.phase}
-        {...{
-          
-          fadeOut,
-          setState,
-          setParameters,
-          ...passThrough,
-          ...phase,
-          ...parameters,
-        }}
-      />
-    }
+    <PhaseContext value={{
+      ...phase,
+      fadeOut,
+      setState,
+      setParameters,
+    }}>
+      {typeof phase.content === 'string' ?
+        <TextPhase text={phase.content} /> :
+        <Component
+          nextState={() => setState(phase.next || initialState)} 
+          className={styles.phase}
+          {...{
+            ...passThrough,
+            ...parameters,
+          }}
+        />
+      }
+    </PhaseContext>
 
   </div>;
 };

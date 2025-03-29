@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^4.1.0",
+    "@auth0/nextjs-auth0": "^3.7.0",
     "classnames": "^2.5.1",
     "html-react-parser": "^5.2.2",
     "memoizee": "^0.4.17",
-    "next": "15.1.7",
+    "next": "^15.2.4",
     "openai": "^4.87.4",
     "ordinal": "^1.0.3",
     "ramda": "^0.30.1",

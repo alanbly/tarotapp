@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
 
@@ -8,11 +8,22 @@ import Card from '../Card';
 import Deck from '../Deck';
 import Veil from './Veil';
 import {Action, Phase, PhasedOverlay, SwirlingMist} from '../common';
-import {BoardContext} from '../contexts';
+import {BoardContext, PhaseContext} from '../contexts';
 import {Cards, Genders, Ranks, Suits, } from '../tarot';
 import {AspectRatio} from '../render';
 
 import styles from './Introduction.module.css';
+
+const IntroContext = createContext({
+  gender: null,
+  rank: null,
+  significator: null,
+  suit: null,
+  setGender: () => {},
+  setRank: () => {},
+  setSignificator: () => {},
+  setSuit: () => {},
+});
 
 export const States = Object.freeze({
   VEIL: Symbol('VEIL'),
@@ -77,7 +88,13 @@ const genderMap = Object.freeze({
   [Cards.EMPEROR.key]: Genders.MALE,
 });
 
-const ChooseSignificatorGender = ({setGender, setRank, setState, ...params}) => {
+const ChooseSignificatorGender = params => {
+  const {
+    setGender,
+    setRank,
+  } = useContext(IntroContext);
+  const {setState} = useContext(PhaseContext);
+
   const selectCard = card => {
     const gender = genderMap[card.key];
     setGender(gender);
@@ -109,7 +126,12 @@ const rankMap = Object.freeze({
   [Cards.CHARIOT.key]: Ranks.KING,
 })
 
-const ChooseSignificatorRank = ({gender, setRank, setState, ...params}) => {
+const ChooseSignificatorRank = params => {
+  const {
+    gender,
+    setRank,
+  } = useContext(IntroContext);
+  const {setState} = useContext(PhaseContext);
   const cards = rankCards[gender];
 
   const selectCard = card => {
@@ -131,7 +153,12 @@ const suitCards = [
   Cards.SIX_OF_PENTACLES,
 ];
 
-const ChooseSignificatorSuit = ({setSuit, setState, ...params}) => {
+const ChooseSignificatorSuit = params => {
+  const {
+    setSuit,
+  } = useContext(IntroContext);
+  const {setState} = useContext(PhaseContext);
+
   const selectCard = card => {
     setSuit(card.suit);
     setState(States.CHOOSE_SIGNIFICATOR_REVEAL);
@@ -161,10 +188,9 @@ const deckPathStyle = (width, height, fraction) => {
   };
 };
 
-const CardFan = ({className, text, action, setState}) => {
-  const {
-    deck,
-  } = useContext(BoardContext);
+const CardFan = ({className, text, action}) => {
+  const {deck} = useContext(BoardContext);
+  const {setState} = useContext(PhaseContext);
   const divRef = useRef(null);
   const [alpha, setAlpha] = useState(0);
   const [shown, setShown] = useState(0);
@@ -203,7 +229,7 @@ const CardFan = ({className, text, action, setState}) => {
     }, 10);
 
     return () => clearInterval(intervalID)
-  }, [deck]);
+  }, []);
 
   const style = {
     opacity: alpha,
@@ -222,16 +248,23 @@ const CardFan = ({className, text, action, setState}) => {
         className={styles.deck}
         style={cardStyle}
         onClick={() => action(idx)}
-        {...{deck}}
       />;
     })}
     <Deck className={styles.deck} {...{deck}} style={deckStyle}/>
   </div>;
 };
 
-const ChooseSignificatorCut = ({setState, setSignificator, ...params}) => {
+const ChooseSignificatorCut = params => {
+  const {
+    deck,
+  } = useContext(BoardContext);
+  const {
+    setSignificator,
+  } = useContext(IntroContext);
+  const {setState} = useContext(PhaseContext);
+
   const chooseCard = idx => {
-    const significator = params.deck.undrawn[idx];
+    const significator = deck.undrawn[idx];
     setSignificator(significator);
     setState(States.CHOOSE_SIGNIFICATOR_REVEAL);
   };
@@ -283,14 +316,17 @@ const significatorMap = Object.freeze({
 });
 
 const ChooseSignificatorReveal = ({
-  setSignificator, 
-  setState, 
-  gender, 
-  suit, 
-  rank, 
-  significator: chosen,
   ...params
 }) => {
+  const {
+    gender,
+    rank,
+    significator: chosen,
+    suit,
+    setSignificator,
+  } = useContext(IntroContext);
+  const {setState} = useContext(PhaseContext);
+
   const selectCard = card => {
     setSignificator(card);
     setState(States.EXPLAIN_QUESTION);
@@ -305,10 +341,9 @@ const ChooseSignificatorReveal = ({
   />;
 };
 
-const CutCards = ({setState, ...params}) => {
-  const {
-    deck,
-  } = useContext(BoardContext);
+const CutCards = params => {
+  const {deck} = useContext(BoardContext);
+  const {setState} = useContext(PhaseContext);
 
   const cutCards = idx => {
     deck.cut(idx);
@@ -322,7 +357,9 @@ const CutCards = ({setState, ...params}) => {
   />
 }
 
-const PartVeil = ({className, fadeOut}) => {
+const PartVeil = ({className, }) => {
+  const {fadeOut} = useContext(PhaseContext);
+
   const [alpha, setAlpha] = useState(0);
 
   useEffect(() => {
@@ -400,14 +437,7 @@ export const Introduction = ({
   }
 
   const overlayCls = classNames(styles.introduction, className, {});
-  return <PhasedOverlay 
-    className={overlayCls}
-    states={States}
-    phases={introduction}
-    onComplete={partVeil}
-    onBackgroundClick={() => setSelectedCard(null)}
-    {...{
-      initialState,
+  return <IntroContext value={{
       gender,
       rank,
       significator,
@@ -416,8 +446,18 @@ export const Introduction = ({
       setRank,
       setSignificator,
       setSuit,
-    }}
-  />;
+    }}>
+    <PhasedOverlay 
+      className={overlayCls}
+      states={States}
+      phases={introduction}
+      onComplete={partVeil}
+      onBackgroundClick={() => setSelectedCard(null)}
+      {...{
+        initialState,
+      }}
+    />
+  </IntroContext>;
 };
 
 export default Introduction;

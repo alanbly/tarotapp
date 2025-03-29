@@ -110,6 +110,7 @@ const Board = () => {
       {selectedCard && 
         <CardDetail 
           className={styles.detail}
+          card={selectedCard}
         />
       }
     </BoardContext>
