@@ -6,6 +6,8 @@ import {findIndex, isNil, props} from 'ramda';
 import {pushFile, performReading} from './openAi';
 import {cardsByName, decksByName, spreadsByName} from '../tarot';
 
+export const maxDuration = 30;
+
 const explainCards = 'You are a mystical reader of the tarot. Interpret the following and explain each card';
 const adviseQuerent = 'You are a mystical reader of the tarot. Give advice to a Querent based on the following in two paragraphs';
 
